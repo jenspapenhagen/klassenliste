@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import static javafx.scene.control.ButtonBar.ButtonData.OK_DONE;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
@@ -23,8 +24,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class FXMLController implements Initializable {
@@ -85,69 +88,95 @@ public class FXMLController implements Initializable {
 
         // Add MenuItem to ContextMenu
         contextMenu.getItems().addAll(edit, delete);
-        
-        
+
         //add contextmenu to table
         table.setContextMenu(contextMenu);
 
     }
 
-    
     public void openEdit() {
         //get the selected member
         Member m = (Member) table.getSelectionModel().getSelectedItem();
-        
+
+        //name
         Label nameLable = new Label("Name: ");
         TextField nameTextField = new TextField();
 
         nameTextField.setText(m.getName());
         nameTextField.deselect();
+        //nachname
+        Label nachnameLable = new Label("Nachname: ");
+        TextField nachnameTextField = new TextField();
 
-        VBox vb = new VBox(nameLable, nameTextField);
+        nachnameTextField.setText(m.getNachname());
+        nachnameTextField.deselect();
+
+        //gender
+        Label genderLable = new Label("Geschlecht: ");
+        CheckBox genderCheckBox = new CheckBox();
+        genderCheckBox.setSelected(m.isGender());
+
+        //alter
+        Label alterLable = new Label("Alter: ");
+        TextField alterTextField = new TextField();
+
+        alterTextField.setText("" + m.getAge());
+        alterTextField.deselect();
+
+        //bemerkung
+        Label bemerkungLable = new Label("Bemerkung: ");
+        TextArea bemerkungTextArea = new TextArea();
+        bemerkungTextArea.setText(m.getBemerkung());
+
+        VBox vb = new VBox(nameLable, nameTextField,
+                nachnameLable, nachnameTextField,
+                genderLable, genderCheckBox,
+                alterLable, alterTextField,
+                bemerkungLable, bemerkungTextArea);
 
         Dialog<Member> dialog = new Dialog<>();
-        
-        
-        
+
         dialog.setHeaderText("Member ändern");
+        dialog.setResizable(true);
+
         DialogPane dialogPane = dialog.getDialogPane();
         dialogPane.setContent(vb);
         dialogPane.getButtonTypes().addAll(ButtonType.CANCEL, ButtonType.OK);
-        dialog.setResizable(true);
+
         Button okButton = (Button) dialogPane.lookupButton(ButtonType.OK);
         okButton.setText("Speichern");
 
         Optional result = dialog.showAndWait();
         //on OK save the member
-        if(result.get() == ButtonType.OK){
+        if (result.get() == ButtonType.OK) {
             em.store(m);
-        }else{
+        } else {
             dialog.close();
         }
     }
-    
-    
+
     public void openDelete() {
         //get the selected member
         Member m = (Member) table.getSelectionModel().getSelectedItem();
-        
+
         Dialog<Member> dialog = new Dialog<>();
 
         dialog.setHeaderText("Member löschen");
-        DialogPane dialogPane = dialog.getDialogPane();       
-        dialogPane.getButtonTypes().addAll(ButtonType.CANCEL, ButtonType.OK);
         dialog.setResizable(true);
+        
+        DialogPane dialogPane = dialog.getDialogPane();
+        dialogPane.getButtonTypes().addAll(ButtonType.CANCEL, ButtonType.OK);
+
         Button okButton = (Button) dialogPane.lookupButton(ButtonType.OK);
         okButton.setText("Löschen");
 
         Optional result = dialog.showAndWait();
         //on OK save the member
-        if(result.get() == ButtonType.OK){
+        if (result.get() == ButtonType.OK) {
             em.delete(m);
-        }else{
+        } else {
             dialog.close();
         }
     }
 
 }
-

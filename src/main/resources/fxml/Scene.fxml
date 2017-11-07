@@ -19,7 +19,7 @@
    <bottom>
       <HBox alignment="TOP_RIGHT" spacing="5.0" BorderPane.alignment="CENTER_RIGHT">
          <children>
-            <Button fx:id="addButton" mnemonicParsing="false" onAction="#pressedAddButton" text="Add new Member" />
+            <Button fx:id="addButton" mnemonicParsing="false" onAction="#pressedAddButton" text="Neuen Member hinzufügen" />
          </children>
       </HBox>
    </bottom>
@@ -28,7 +28,7 @@
         <columns>
           <TableColumn fx:id="name" prefWidth="135.0" resizable="false" text="Name" />
           <TableColumn fx:id="nachname" minWidth="0.0" prefWidth="155.0" resizable="false" text="Nachname" />
-            <TableColumn fx:id="gender" prefWidth="70.0" resizable="false" text="Geschlächt" />
+            <TableColumn fx:id="gender" prefWidth="70.0" resizable="false" text="Geschlecht" />
             <TableColumn fx:id="age" prefWidth="60.0" resizable="false" text="Alter" />
             <TableColumn fx:id="bemerkung" maxWidth="-1.0" minWidth="150.0" prefWidth="-1.0" resizable="true" text="Bemerkung" />
         </columns>
