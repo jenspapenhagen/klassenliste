@@ -37,6 +37,10 @@ public class Member {
 
     @Column(name = "age")
     private int age;
+    
+    @Column(name = "bemerkung")
+    private String bemerkung;
+    
 
     public Member() {
     }

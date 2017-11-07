@@ -6,10 +6,14 @@
 package eu.papenhagen.klassenliste;
 
 import eu.papenhagen.klassenliste.entity.Member;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.slf4j.LoggerFactory;
 
 /**
  * Querry the full table
@@ -17,17 +21,38 @@ import org.hibernate.cfg.Configuration;
  * @author jay
  */
 public class EntityManager {
+    
+    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(EntityManager.class);
 
     // create session factory
-    private SessionFactory factory = new Configuration()
+    private static SessionFactory factory = new Configuration()
             .configure("hibernate.cfg.xml")
             .addAnnotatedClass(Member.class)
             .buildSessionFactory();
 
     // create session
-    private Session session = factory.getCurrentSession();
+    private static Session session = factory.getCurrentSession();
 
-    public List<Member> getDate() {
+    public static boolean pingDb() {
+        String jdbcUrl = "jdbc:mysql://localhost:3306/db_database?useSSL=false";
+        String user = "root";
+        String pass = "";
+        try {
+            System.out.println("Connecting to database: " + jdbcUrl);
+
+            Connection con = DriverManager.getConnection(jdbcUrl, user, pass);
+
+            System.out.println("Connection successful!!!");
+            return true;
+
+        } catch (SQLException ex) {
+           LOG.error(ex.getMessage());
+
+        }
+        return false;
+    }
+
+    public static List<Member> getDate() {
         session.beginTransaction();
         List<Member> memberList = session.createQuery("from Member").list();
 
@@ -35,7 +60,7 @@ public class EntityManager {
 
     }
 
-    public boolean store(Member m) {
+    public static boolean store(Member m) {
         session.beginTransaction();
 
         Member tempMember = session.get(Member.class, m.getId());
@@ -46,7 +71,7 @@ public class EntityManager {
         return true;
     }
 
-    public boolean delete(Member m) {
+    public static boolean delete(Member m) {
         session.beginTransaction();
 
         Member tempMember = session.get(Member.class, m.getId());
