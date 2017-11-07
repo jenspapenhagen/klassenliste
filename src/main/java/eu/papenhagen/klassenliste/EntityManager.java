@@ -52,10 +52,8 @@ public class EntityManager {
     }
 
     public int getlastID() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        List<Member> memberList = session.createQuery("from Member").list();
-         Member m = memberList.get(memberList.size() - 1);
+        List<Member> memberList = getDate();
+        Member m = memberList.get(memberList.size() - 1);
         
 
         return m.getId();

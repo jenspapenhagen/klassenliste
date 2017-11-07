@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9.0.1" fx:controller="eu.papenhagen.klassenliste.FXMLController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.papenhagen.klassenliste.FXMLController">
       <top>
       <Label text="Klassenbuch" BorderPane.alignment="CENTER">
          <font>
@@ -24,13 +24,13 @@
       </HBox>
    </bottom>
    <center>
-      <TableView fx:id="table" fixedCellSize="0.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
+      <TableView fx:id="table" fixedCellSize="0.0" tableMenuButtonVisible="true" BorderPane.alignment="TOP_LEFT">
         <columns>
-          <TableColumn fx:id="name" prefWidth="135.0" resizable="false" text="Name" />
-          <TableColumn fx:id="nachname" minWidth="0.0" prefWidth="155.0" resizable="false" text="Nachname" />
-            <TableColumn fx:id="gender" prefWidth="70.0" resizable="false" text="Geschlecht" />
-            <TableColumn fx:id="age" prefWidth="60.0" resizable="false" text="Alter" />
-            <TableColumn fx:id="bemerkung" maxWidth="-1.0" minWidth="150.0" prefWidth="-1.0" resizable="true" text="Bemerkung" />
+          <TableColumn fx:id="name" prefWidth="135.0" text="Name" />
+          <TableColumn fx:id="nachname" prefWidth="155.0" text="Nachname" />
+            <TableColumn fx:id="gender" prefWidth="70.0" text="Geschlecht" />
+            <TableColumn fx:id="age" prefWidth="60.0" text="Alter" />
+            <TableColumn fx:id="bemerkung" prefWidth="155.0" text="Bemerkung" />
         </columns>
       </TableView>
    </center>

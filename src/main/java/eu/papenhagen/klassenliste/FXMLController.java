@@ -55,6 +55,7 @@ public class FXMLController implements Initializable {
 
         List<Member> memberlist = new ArrayList<>();
         memberlist = em.getDate();
+       
 
         ObservableList<Member> data = FXCollections.observableArrayList(memberlist);
 
@@ -86,6 +87,8 @@ public class FXMLController implements Initializable {
         //add contextmenu to table
         table.setContextMenu(contextMenu);
 
+        //resize polixy javaFX8 
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
 
     public void openEdit() {
