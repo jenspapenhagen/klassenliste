@@ -21,17 +21,8 @@ import org.slf4j.LoggerFactory;
  * @author jay
  */
 public class EntityManager {
-    
+
     private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(EntityManager.class);
-
-    // create session factory
-    private static SessionFactory factory = new Configuration()
-            .configure("hibernate.cfg.xml")
-            .addAnnotatedClass(Member.class)
-            .buildSessionFactory();
-
-    // create session
-    private static Session session = factory.getCurrentSession();
 
     public static boolean pingDb() {
         String jdbcUrl = "jdbc:mysql://localhost:3306/db_database?useSSL=false";
@@ -46,13 +37,14 @@ public class EntityManager {
             return true;
 
         } catch (SQLException ex) {
-           LOG.error(ex.getMessage());
+            LOG.error(ex.getMessage());
 
         }
         return false;
     }
 
     public static List<Member> getDate() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         List<Member> memberList = session.createQuery("from Member").list();
 
@@ -60,26 +52,30 @@ public class EntityManager {
 
     }
 
-    public static boolean store(Member m) {
+    public static void store(Member m) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.save(m);
+    }
+
+    public static void update(Member m) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
 
         Member tempMember = session.get(Member.class, m.getId());
         tempMember = m;
 
         session.getTransaction().commit();
-
-        return true;
     }
 
-    public static boolean delete(Member m) {
+    public static void delete(Member m) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
 
         Member tempMember = session.get(Member.class, m.getId());
         session.delete(tempMember);
 
         session.getTransaction().commit();
-
-        return true;
     }
 
 }
