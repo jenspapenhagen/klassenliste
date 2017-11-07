@@ -49,7 +49,16 @@ public class EntityManager {
         List<Member> memberList = session.createQuery("from Member").list();
 
         return memberList;
+    }
 
+    public int getlastID() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        List<Member> memberList = session.createQuery("from Member").list();
+         Member m = memberList.get(memberList.size() - 1);
+        
+
+        return m.getId();
     }
 
     public void store(Member m) {

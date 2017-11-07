@@ -9,26 +9,17 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar.ButtonData;
-import static javafx.scene.control.ButtonBar.ButtonData.OK_DONE;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 public class FXMLController implements Initializable {
 
@@ -51,7 +42,10 @@ public class FXMLController implements Initializable {
 
     @FXML
     void pressedAddButton(ActionEvent event) {
+        Member m = new Member(999999, "Name", "Nachname", true, 12, "Bemerkung");
 
+        EditPane ep = new EditPane();
+        ep.EditPane(m);
     }
 
     public EntityManager em = new EntityManager();
@@ -77,7 +71,7 @@ public class FXMLController implements Initializable {
         // Create ContextMenu
         ContextMenu contextMenu = new ContextMenu();
         MenuItem edit = new MenuItem("Edit Member");
-        MenuItem delete = new MenuItem("Create Member");
+        MenuItem delete = new MenuItem("Delete Member");
 
         edit.setOnAction((ActionEvent event) -> {
             openEdit();
@@ -98,61 +92,8 @@ public class FXMLController implements Initializable {
         //get the selected member
         Member m = (Member) table.getSelectionModel().getSelectedItem();
 
-        //name
-        Label nameLable = new Label("Name: ");
-        TextField nameTextField = new TextField();
-
-        nameTextField.setText(m.getName());
-        nameTextField.deselect();
-        //nachname
-        Label nachnameLable = new Label("Nachname: ");
-        TextField nachnameTextField = new TextField();
-
-        nachnameTextField.setText(m.getNachname());
-        nachnameTextField.deselect();
-
-        //gender
-        Label genderLable = new Label("Geschlecht: ");
-        CheckBox genderCheckBox = new CheckBox();
-        genderCheckBox.setSelected(m.isGender());
-
-        //alter
-        Label alterLable = new Label("Alter: ");
-        TextField alterTextField = new TextField();
-
-        alterTextField.setText("" + m.getAge());
-        alterTextField.deselect();
-
-        //bemerkung
-        Label bemerkungLable = new Label("Bemerkung: ");
-        TextArea bemerkungTextArea = new TextArea();
-        bemerkungTextArea.setText(m.getBemerkung());
-
-        VBox vb = new VBox(nameLable, nameTextField,
-                nachnameLable, nachnameTextField,
-                genderLable, genderCheckBox,
-                alterLable, alterTextField,
-                bemerkungLable, bemerkungTextArea);
-
-        Dialog<Member> dialog = new Dialog<>();
-
-        dialog.setHeaderText("Member ändern");
-        dialog.setResizable(true);
-
-        DialogPane dialogPane = dialog.getDialogPane();
-        dialogPane.setContent(vb);
-        dialogPane.getButtonTypes().addAll(ButtonType.CANCEL, ButtonType.OK);
-
-        Button okButton = (Button) dialogPane.lookupButton(ButtonType.OK);
-        okButton.setText("Speichern");
-
-        Optional result = dialog.showAndWait();
-        //on OK save the member
-        if (result.get() == ButtonType.OK) {
-            em.store(m);
-        } else {
-            dialog.close();
-        }
+        EditPane ep = new EditPane();
+        ep.EditPane(m);
     }
 
     public void openDelete() {
@@ -163,7 +104,7 @@ public class FXMLController implements Initializable {
 
         dialog.setHeaderText("Member löschen");
         dialog.setResizable(true);
-        
+
         DialogPane dialogPane = dialog.getDialogPane();
         dialogPane.getButtonTypes().addAll(ButtonType.CANCEL, ButtonType.OK);
 
