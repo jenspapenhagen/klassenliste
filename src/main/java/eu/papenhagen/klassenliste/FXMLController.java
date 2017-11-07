@@ -42,17 +42,14 @@ public class FXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        if(EntityManager.pingDb()){
-            System.out.println("yeaarrr");
-        }else{
-            System.out.println("nope");
-        }
+        EntityManager em = new EntityManager();
+        List<Member> memberlist = new ArrayList<>();
         
-                
-//        List<Member> memberlist = new ArrayList<>();
-//        memberlist = EntityManager.getDate();
-//        ObservableList<Member> list = FXCollections.observableArrayList(memberlist);
-//        
+        memberlist = em.getDate();
+        System.out.println(""+memberlist.get(0).getNachname());
+        
+        //ObservableList<Member> list = FXCollections.observableArrayList(memberlist);
+        
 //        //fill the table
 //        name.setCellValueFactory(new PropertyValueFactory<Member,String>("name"));
 //        nachname.setCellValueFactory(new PropertyValueFactory<Member,String>("nachname"));
