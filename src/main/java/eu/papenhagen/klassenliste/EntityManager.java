@@ -25,7 +25,7 @@ public class EntityManager {
     private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(EntityManager.class);
 
     public static boolean pingDb() {
-        String jdbcUrl = "jdbc:mysql://localhost:3306/db_database?useSSL=false";
+        String jdbcUrl = "jdbc:mysql://localhost:3306/db_database?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
         String user = "root";
         String pass = "";
         try {
