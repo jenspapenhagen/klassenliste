@@ -28,7 +28,7 @@
         <columns>
           <TableColumn fx:id="name" prefWidth="135.0" text="Name" />
           <TableColumn fx:id="nachname" prefWidth="155.0" text="Nachname" />
-            <TableColumn fx:id="gender" prefWidth="70.0" text="Geschlecht" />
+            <TableColumn fx:id="gender" prefWidth="30.0" text="Geschlecht" />
             <TableColumn fx:id="age" prefWidth="60.0" text="Alter" />
             <TableColumn fx:id="bemerkung" prefWidth="155.0" text="Bemerkung" />
         </columns>

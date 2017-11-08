@@ -17,10 +17,13 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class FXMLController implements Initializable {
 
@@ -68,9 +71,38 @@ public class FXMLController implements Initializable {
         //fill the table
         name.setCellValueFactory(new PropertyValueFactory<Member, String>("name"));
         nachname.setCellValueFactory(new PropertyValueFactory<Member, String>("nachname"));
-        gender.setCellValueFactory(new PropertyValueFactory<Member, Boolean>("gender"));
+        gender.setCellValueFactory(new PropertyValueFactory<Member, Image>("gender"));
         age.setCellValueFactory(new PropertyValueFactory<Member, Integer>("age"));
         bemerkung.setCellValueFactory(new PropertyValueFactory<Member, String>("bemerkung"));
+
+        //add images and tooltip
+        gender.setCellFactory(col -> {
+            return new TableCell<Member, Boolean>() {
+
+                private final ImageView imageView = new ImageView();
+
+                {
+                    // initialize ImageView + set as graphic
+                    imageView.setFitWidth(20);
+                    imageView.setFitHeight(20);
+                    setGraphic(imageView);
+                }
+
+                @Override
+                protected void updateItem(Boolean item, boolean empty) {
+                    if (empty || item == null) {
+                        // no image for empty cells
+                        imageView.setImage(null);
+                    } else {
+                        // set image for non-empty cell
+                        imageView.setImage(item ? maleimage : femaleimage);
+                        Tooltip tip = new Tooltip(item ? "Männlich" : "Weiblich");
+                        setTooltip(tip);
+                    }
+                }
+
+            };
+        });
 
         //fill the data in the table
         table.setItems(data);
