@@ -24,7 +24,7 @@ import javafx.scene.layout.VBox;
  */
 public class EditPane extends Dialog {
 
-    public EntityManager em = new EntityManager();
+    private MemberSerivce ms = new MemberSerivce();
 
     public void EditPane(Member m) {
 
@@ -99,7 +99,7 @@ public class EditPane extends Dialog {
             //the create of a new Member need a own ID and not the default ID
             if (isNewMember) {
                 //create new Member for this
-                Member tempm = new Member(em.getlastID() + 1, "", "", true, 12, "");
+                Member tempm = new Member(ms.getlastID() + 1, "", "", true, 12, "");
                 m = tempm;
             }
             m.setName(nameTextField.getText());
@@ -118,9 +118,9 @@ public class EditPane extends Dialog {
 
             //create or update a member in the db
             if (isNewMember) {
-                em.store(m);
+                ms.store(m);
             } else {
-                em.update(m);
+                ms.update(m);
             }
 
         } else {

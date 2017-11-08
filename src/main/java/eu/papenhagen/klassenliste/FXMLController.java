@@ -49,12 +49,12 @@ public class FXMLController implements Initializable {
         table.refresh();
     }
 
-    public EntityManager em = new EntityManager();
+    private MemberSerivce ms = new MemberSerivce();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //get all member form the Database
-        List<Member> memberlist = em.getDate();
+        List<Member> memberlist = ms.getDate();
         //move this List to a ObservableList
         ObservableList<Member> data = FXCollections.observableArrayList(memberlist);
 
@@ -127,7 +127,7 @@ public class FXMLController implements Initializable {
         Optional result = dialog.showAndWait();
         //on OK save the member
         if (result.get() == ButtonType.OK) {
-            em.delete(m);
+            ms.delete(m);
         } else {
             dialog.close();
         }
