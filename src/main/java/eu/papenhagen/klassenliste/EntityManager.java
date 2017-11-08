@@ -93,11 +93,11 @@ public class EntityManager {
     public void update(Member m) {
         try (Session session = HibernateUtil.getHibernateSession()) {
             Transaction transaction = session.beginTransaction();
-            
+
             Member tempMember = session.get(Member.class, m.getId());
             tempMember = m;
-            
             transaction.commit();
+            session.merge(m);
         }
     }
 
@@ -109,7 +109,7 @@ public class EntityManager {
     public void delete(Member m) {
         try (Session session = HibernateUtil.getHibernateSession()) {
             Transaction transaction = session.beginTransaction();
-            
+
             Member tempMember = session.get(Member.class, m.getId());
             session.delete(tempMember);
             transaction.commit();

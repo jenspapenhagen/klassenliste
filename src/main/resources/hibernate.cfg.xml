@@ -27,6 +27,7 @@
 
         <!-- Set the current session context -->
         <property name="current_session_context_class">thread</property>
+        <property name="hibernate.id.new_generator_mappings">true</property>
         
         
         <mapping class="eu.papenhagen.klassenliste.entity.Member" />
