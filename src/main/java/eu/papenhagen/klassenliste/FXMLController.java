@@ -47,8 +47,8 @@ public class FXMLController implements Initializable {
         //create new Member
         Member m = new Member(999999, "Name", "Nachname", true, 12, "Bemerkung");
 
-        EditPane ep = new EditPane();
-        ep.EditPane(m);
+        EditDialog ep = new EditDialog();
+        ep.EditDialog(m);
 
         //refrech table after edit
         table.refresh();
@@ -136,8 +136,8 @@ public class FXMLController implements Initializable {
         //get the selected member
         Member m = (Member) table.getSelectionModel().getSelectedItem();
 
-        EditPane ep = new EditPane();
-        ep.EditPane(m);
+        EditDialog ep = new EditDialog();
+        ep.EditDialog(m);
 
         //refrech table after edit
         table.refresh();

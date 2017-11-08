@@ -10,7 +10,6 @@ import java.util.Optional;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
@@ -18,19 +17,21 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 /**
  * Edit Pane this get use in Edit and Create New Member
  *
  * @author jay
  */
-public class EditPane extends Dialog {
+public class EditDialog extends Dialog {
 
     private MemberSerivce ms = new MemberSerivce();
 
-    public void EditPane(Member m) {
+    public void EditDialog(Member m) {
 
         boolean isNewMember = false;
         //id 
@@ -98,6 +99,7 @@ public class EditPane extends Dialog {
         }
 
         dialog.setResizable(true);
+        
 
         DialogPane dialogPane = dialog.getDialogPane();
         dialogPane.setContent(vb);
@@ -105,6 +107,10 @@ public class EditPane extends Dialog {
 
         Button okButton = (Button) dialogPane.lookupButton(ButtonType.OK);
         okButton.setText("Speichern");
+        
+        //set icon
+        Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.png")));
 
         Optional result = dialog.showAndWait();
         //on OK save the member

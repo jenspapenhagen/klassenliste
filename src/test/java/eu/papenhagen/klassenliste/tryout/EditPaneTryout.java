@@ -5,7 +5,7 @@
  */
 package eu.papenhagen.klassenliste.tryout;
 
-import eu.papenhagen.klassenliste.EditPane;
+import eu.papenhagen.klassenliste.EditDialog;
 import eu.papenhagen.klassenliste.entity.Member;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
@@ -27,8 +27,8 @@ public class EditPaneTryout {
         Platform.runLater(() -> {
             Member m = new Member(9999, "name", "nachname", true, 35, "bemerkung");
 
-            EditPane ep = new EditPane();
-            ep.EditPane(m);
+            EditDialog ep = new EditDialog();
+            ep.EditDialog(m);
 
             complete = true;
         });
