@@ -2,7 +2,6 @@ package eu.papenhagen.klassenliste;
 
 import eu.papenhagen.klassenliste.entity.Member;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -25,10 +24,8 @@ public class FXMLController implements Initializable {
 
     @FXML
     private Button addButton;
-
     @FXML
     private TableView table;
-
     @FXML
     private TableColumn name;
     @FXML
@@ -42,21 +39,23 @@ public class FXMLController implements Initializable {
 
     @FXML
     void pressedAddButton(ActionEvent event) {
+        //create new Member
         Member m = new Member(999999, "Name", "Nachname", true, 12, "Bemerkung");
 
         EditPane ep = new EditPane();
         ep.EditPane(m);
+        
+        //refrech table after edit
+        table.refresh();
     }
 
     public EntityManager em = new EntityManager();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
-        List<Member> memberlist = new ArrayList<>();
-        memberlist = em.getDate();
-       
-
+        //get all member form the Database
+        List<Member> memberlist = em.getDate();
+        //move this List to a ObservableList
         ObservableList<Member> data = FXCollections.observableArrayList(memberlist);
 
         //fill the table
@@ -66,14 +65,14 @@ public class FXMLController implements Initializable {
         age.setCellValueFactory(new PropertyValueFactory<Member, Integer>("age"));
         bemerkung.setCellValueFactory(new PropertyValueFactory<Member, String>("bemerkung"));
 
-        //the data
+        //fill the data in the table
         table.setItems(data);
 
-        // Create ContextMenu
+        //Create a ContextMenu
         ContextMenu contextMenu = new ContextMenu();
         MenuItem edit = new MenuItem("Edit Member");
         MenuItem delete = new MenuItem("Delete Member");
-
+        //actions for the context menu
         edit.setOnAction((ActionEvent event) -> {
             openEdit();
         });
@@ -91,14 +90,25 @@ public class FXMLController implements Initializable {
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
 
+    /**
+     * open the Edit pane with the slected Member out of the table
+     */
     public void openEdit() {
         //get the selected member
         Member m = (Member) table.getSelectionModel().getSelectedItem();
 
         EditPane ep = new EditPane();
         ep.EditPane(m);
+
+        //refrech table after edit
+        table.refresh();
+
     }
 
+    /**
+     * creatr a alert like dialog for hint the user he will delete a Member for
+     * ever
+     */
     public void openDelete() {
         //get the selected member
         Member m = (Member) table.getSelectionModel().getSelectedItem();

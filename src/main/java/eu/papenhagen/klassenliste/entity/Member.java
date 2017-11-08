@@ -14,8 +14,6 @@ import lombok.*;
  *
  * @author jay
  */
-@Getter
-@Setter
 @AllArgsConstructor
 @Entity
 @Table(name = "member")
@@ -24,23 +22,33 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @Getter
     private int id;
 
+    @Getter
+    @Setter
     @Column(name = "name")
     private String name;
 
+    @Getter
+    @Setter
     @Column(name = "nachname")
     private String nachname;
 
+    @Getter
+    @Setter
     @Column(name = "gender")
     private boolean gender;
 
+    @Getter
+    @Setter
     @Column(name = "age")
     private int age;
-    
+
+    @Getter
+    @Setter
     @Column(name = "bemerkung")
     private String bemerkung;
-    
 
     public Member() {
     }

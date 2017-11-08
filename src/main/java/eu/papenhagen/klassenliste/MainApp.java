@@ -15,6 +15,7 @@ public class MainApp extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
 
         Scene scene = new Scene(root);
+        //the css style
         scene.getStylesheets().add(getClass().getResource("/styles/Styles.css").toExternalForm());
 
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.png")));

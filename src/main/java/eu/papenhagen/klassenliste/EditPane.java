@@ -7,19 +7,23 @@ package eu.papenhagen.klassenliste;
 
 import eu.papenhagen.klassenliste.entity.Member;
 import java.util.Optional;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
 
 /**
- * Edit Pane
+ * Edit Pane this get use in Edit and Create New Member
  *
  * @author jay
  */
@@ -29,9 +33,9 @@ public class EditPane extends Dialog {
 
     public void EditPane(Member m) {
 
+        boolean isNewMember = false;
         //id 
         //are not shown
-        
         //name
         Label nameLable = new Label("Name: ");
         TextField nameTextField = new TextField();
@@ -47,17 +51,14 @@ public class EditPane extends Dialog {
 
         //gender
         Label genderLable = new Label("Geschlecht: ");
-        ToggleGroup group = new ToggleGroup();
-        RadioButton genderrb = new RadioButton();
-        RadioButton genderrb2 = new RadioButton();
-        genderrb.setSelected(m.isGender());
-        genderrb2.setSelected(m.isGender());
-
-        genderrb.setToggleGroup(group);
-        genderrb2.setToggleGroup(group);
-
-        genderrb.setText("Männlich");
-        genderrb2.setText("Weiblich");
+        CheckBox genderM = new CheckBox("Männlich");
+        CheckBox genderF = new CheckBox("Weiblich");
+        //preselect
+        if (m.isGender()) {
+            genderM.setSelected(true);
+        } else {
+            genderF.setSelected(true);
+        }
 
         //alter
         Label alterLable = new Label("Alter: ");
@@ -73,7 +74,7 @@ public class EditPane extends Dialog {
 
         VBox vb = new VBox(nameLable, nameTextField,
                 nachnameLable, nachnameTextField,
-                genderLable, genderrb, genderrb2,
+                genderLable, genderM, genderF,
                 alterLable, alterTextField,
                 bemerkungLable, bemerkungTextArea);
 
@@ -82,6 +83,7 @@ public class EditPane extends Dialog {
         if (m.getName().equals("Name")) {
             dialog.setTitle("Member hinzufügen");
             dialog.setHeaderText("Member hinzufügen");
+            isNewMember = true;
         } else {
             dialog.setTitle("Member ändern");
             dialog.setHeaderText("Member ändern");
@@ -99,22 +101,33 @@ public class EditPane extends Dialog {
         Optional result = dialog.showAndWait();
         //on OK save the member
         if (result.get() == ButtonType.OK) {
-            //this is the default ID for a new member
-            if(m.getId() == 999999){
-                m.setId(em.getlastID() + 1);
+            //the create of a new Member need a own ID and not the default ID
+            if (isNewMember) {
+                //create new Member for this
+                Member tempm = new Member(em.getlastID() + 1, "", "", true, 12, "");
+                m = tempm;
             }
             m.setName(nameTextField.getText());
             m.setNachname(nachnameTextField.getText());
-            //try to get the radio button input
-            if (group.getSelectedToggle() != null) {
-                m.setGender((boolean) group.getSelectedToggle().getUserData());
-            } else {
-                m.setGender(true);
+
+            //get the selecte of the gender checkbox
+            boolean gender = true;
+            if (genderF.isSelected()) {
+                gender = false;
             }
+
+            m.setGender(gender);
+
             m.setAge(Integer.valueOf(alterTextField.getText()));
             m.setBemerkung(bemerkungTextArea.getText());
 
-            em.store(m);
+            //create or update a member in the db
+            if (isNewMember) {
+                em.store(m);
+            } else {
+                em.update(m);
+            }
+
         } else {
             dialog.close();
         }
