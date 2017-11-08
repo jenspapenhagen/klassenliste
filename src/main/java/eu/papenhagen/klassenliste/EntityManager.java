@@ -39,7 +39,6 @@ public class EntityManager {
 
             System.out.println("Connection successful!!!");
             return true;
-
         } catch (SQLException ex) {
             LOG.error(ex.getMessage());
         }
