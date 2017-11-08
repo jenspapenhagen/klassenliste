@@ -9,6 +9,7 @@ The main Window
 ![alt text](https://raw.githubusercontent.com/jenspapenhagen/klassenliste/master/src/main/resources/images/mainwindow.JPG)
 
 Edit Dialog:
+
 ![alt text](https://raw.githubusercontent.com/jenspapenhagen/klassenliste/master/src/main/resources/images/addMemberWindow.JPG)
 
 # Install
@@ -16,3 +17,8 @@ Edit Dialog:
 create database db_database
 
 import this SQL-File (https://raw.githubusercontent.com/jenspapenhagen/klassenliste/master/src/main/resources/resources/member.sql)
+
+than git clone 
+and
+mvn clean install
+
