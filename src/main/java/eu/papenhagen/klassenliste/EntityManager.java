@@ -42,8 +42,8 @@ public class EntityManager {
 
         } catch (SQLException ex) {
             LOG.error(ex.getMessage());
-
         }
+
         return false;
     }
 
@@ -80,8 +80,8 @@ public class EntityManager {
     public void store(Member m) {
         try (Session session = HibernateUtil.getHibernateSession()) {
             Transaction transaction = session.beginTransaction();
-            transaction.commit();
             session.save(m);
+            transaction.commit();
         }
     }
 
@@ -96,8 +96,9 @@ public class EntityManager {
 
             Member tempMember = session.get(Member.class, m.getId());
             tempMember = m;
-            transaction.commit();
             session.merge(m);
+            transaction.commit();
+
         }
     }
 
