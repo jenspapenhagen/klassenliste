@@ -7,14 +7,18 @@ package eu.papenhagen.klassenliste;
 
 import eu.papenhagen.klassenliste.entity.Member;
 import java.util.Optional;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
@@ -45,15 +49,24 @@ public class EditPane extends Dialog {
         nachnameTextField.deselect();
 
         //gender
+        ToggleGroup group = new ToggleGroup();
+        HBox hb = new HBox();
         Label genderLable = new Label("Geschlecht: ");
-        CheckBox genderM = new CheckBox("Männlich");
-        CheckBox genderF = new CheckBox("Weiblich");
+        RadioButton genderM = new RadioButton ("Männlich");
+        RadioButton genderF = new RadioButton ("Weiblich");
+        genderM.setToggleGroup(group);
+        genderF.setToggleGroup(group);
         //preselect
         if (m.isGender()) {
             genderM.setSelected(true);
         } else {
             genderF.setSelected(true);
         }
+        //add in hbox
+        hb.setPadding(new Insets(10));
+        hb.setSpacing(5);
+        hb.getChildren().addAll(genderLable, genderM, genderF);
+        
 
         //alter
         Label alterLable = new Label("Alter: ");
@@ -69,7 +82,7 @@ public class EditPane extends Dialog {
 
         VBox vb = new VBox(nameLable, nameTextField,
                 nachnameLable, nachnameTextField,
-                genderLable, genderM, genderF,
+                 hb,
                 alterLable, alterTextField,
                 bemerkungLable, bemerkungTextArea);
 
@@ -107,7 +120,7 @@ public class EditPane extends Dialog {
 
             //get the selecte of the gender checkbox
             boolean gender = true;
-            if (genderF.isSelected()) {
+            if(genderF.isSelected()) {
                 gender = false;
             }
 

@@ -1,6 +1,7 @@
 package eu.papenhagen.klassenliste;
 
 import eu.papenhagen.klassenliste.entity.Member;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +20,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 
 public class FXMLController implements Initializable {
 
@@ -44,7 +46,7 @@ public class FXMLController implements Initializable {
 
         EditPane ep = new EditPane();
         ep.EditPane(m);
-        
+
         //refrech table after edit
         table.refresh();
     }
@@ -57,6 +59,11 @@ public class FXMLController implements Initializable {
         List<Member> memberlist = ms.getDate();
         //move this List to a ObservableList
         ObservableList<Member> data = FXCollections.observableArrayList(memberlist);
+
+        InputStream is1 = getClass().getResourceAsStream("/images/male-icon.png");
+        InputStream is2 = getClass().getResourceAsStream("/images/female-icon.png");
+        Image maleimage = new Image(is1);
+        Image femaleimage = new Image(is2);
 
         //fill the table
         name.setCellValueFactory(new PropertyValueFactory<Member, String>("name"));
