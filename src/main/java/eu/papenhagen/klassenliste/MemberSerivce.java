@@ -64,12 +64,12 @@ public class MemberSerivce {
     public void update(Member m) {
         try (Session session = HibernateUtil.getSession()) {
             Transaction transaction = session.beginTransaction();
-
-            Member tempMember = session.get(Member.class, m.getId());
-            tempMember = m;
-            session.merge(m);
+            if (m != null) {
+                Member tempMember = session.get(Member.class, m.getId());
+                tempMember = m;
+                session.merge(m);
+            }
             transaction.commit();
-
         }
     }
 
@@ -81,9 +81,10 @@ public class MemberSerivce {
     public void delete(Member m) {
         try (Session session = HibernateUtil.getSession()) {
             Transaction transaction = session.beginTransaction();
-
-            Member tempMember = session.get(Member.class, m.getId());
-            session.delete(tempMember);
+            if (m != null) {
+                Member tempMember = session.get(Member.class, m.getId());
+                session.delete(tempMember);
+            }
             transaction.commit();
         }
     }

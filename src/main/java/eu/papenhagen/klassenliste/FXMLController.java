@@ -42,6 +42,14 @@ public class FXMLController implements Initializable {
     @FXML
     private TableColumn bemerkung;
 
+    private MemberSerivce ms = new MemberSerivce();
+
+    //get all member form the Database
+    private List<Member> memberlist = ms.getDate();
+
+    //move this List to a ObservableList
+    private ObservableList<Member> data = FXCollections.observableArrayList(memberlist);
+
     @FXML
     void pressedAddButton(ActionEvent event) {
         //create new Member
@@ -50,18 +58,15 @@ public class FXMLController implements Initializable {
         EditDialog ep = new EditDialog();
         ep.EditDialog(m);
 
+        //add the new member to the ObservableList
+        data.add(m);
+
         //refrech table after edit
         table.refresh();
     }
 
-    private MemberSerivce ms = new MemberSerivce();
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //get all member form the Database
-        List<Member> memberlist = ms.getDate();
-        //move this List to a ObservableList
-        ObservableList<Member> data = FXCollections.observableArrayList(memberlist);
 
         InputStream is1 = getClass().getResourceAsStream("/images/male-icon.png");
         InputStream is2 = getClass().getResourceAsStream("/images/female-icon.png");
@@ -76,9 +81,8 @@ public class FXMLController implements Initializable {
         bemerkung.setCellValueFactory(new PropertyValueFactory<Member, String>("bemerkung"));
 
         //add images and tooltip
-        gender.setCellFactory(col -> {
+        gender.setCellFactory((Object col) -> {
             return new TableCell<Member, Boolean>() {
-
                 private final ImageView imageView = new ImageView();
 
                 {
@@ -113,10 +117,10 @@ public class FXMLController implements Initializable {
         MenuItem delete = new MenuItem("Delete Member");
         //actions for the context menu
         edit.setOnAction((ActionEvent event) -> {
-            openEdit();
+            editMember();
         });
         delete.setOnAction((ActionEvent event) -> {
-            openDelete();
+            deleteMember();
         });
 
         // Add MenuItem to ContextMenu
@@ -132,12 +136,14 @@ public class FXMLController implements Initializable {
     /**
      * open the Edit pane with the slected Member out of the table
      */
-    public void openEdit() {
+    public void editMember() {
         //get the selected member
         Member m = (Member) table.getSelectionModel().getSelectedItem();
 
         EditDialog ep = new EditDialog();
-        ep.EditDialog(m);
+        if (m != null) {
+            ep.EditDialog(m);
+        }
 
         //refrech table after edit
         table.refresh();
@@ -145,31 +151,38 @@ public class FXMLController implements Initializable {
     }
 
     /**
-     * creatr a alert like dialog for hint the user he will delete a Member for
+     * creatr an alert-like dialog for hint the user he will delete a Member for
      * ever
      */
-    public void openDelete() {
+    public void deleteMember() {
         //get the selected member
         Member m = (Member) table.getSelectionModel().getSelectedItem();
+        if (m != null) {
+            Dialog<Member> dialog = new Dialog<>();
 
-        Dialog<Member> dialog = new Dialog<>();
+            dialog.setHeaderText("Member löschen");
+            dialog.setResizable(true);
 
-        dialog.setHeaderText("Member löschen");
-        dialog.setResizable(true);
+            DialogPane dialogPane = dialog.getDialogPane();
+            dialogPane.getButtonTypes().addAll(ButtonType.CANCEL, ButtonType.OK);
 
-        DialogPane dialogPane = dialog.getDialogPane();
-        dialogPane.getButtonTypes().addAll(ButtonType.CANCEL, ButtonType.OK);
+            Button okButton = (Button) dialogPane.lookupButton(ButtonType.OK);
+            okButton.setText("Löschen");
 
-        Button okButton = (Button) dialogPane.lookupButton(ButtonType.OK);
-        okButton.setText("Löschen");
-
-        Optional result = dialog.showAndWait();
-        //on OK save the member
-        if (result.get() == ButtonType.OK) {
-            ms.delete(m);
-        } else {
-            dialog.close();
+            Optional result = dialog.showAndWait();
+            //on OK save the member
+            if (result.get() == ButtonType.OK && m.getAge() <= 0) {
+                ms.delete(m);
+            } else {
+                dialog.close();
+            }
+            //remove the Member from the ObservableList
+            data.remove(m);
         }
+        
+        //refrech table after delete
+        table.refresh();
+
     }
 
 }

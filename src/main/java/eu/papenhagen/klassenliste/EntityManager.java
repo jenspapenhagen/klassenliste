@@ -5,13 +5,9 @@
  */
 package eu.papenhagen.klassenliste;
 
-import eu.papenhagen.klassenliste.entity.Member;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.List;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.slf4j.LoggerFactory;
 
 /**
