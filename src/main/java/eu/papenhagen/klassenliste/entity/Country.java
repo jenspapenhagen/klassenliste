@@ -19,7 +19,7 @@ import lombok.*;
 public class Country implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @Column(name = "country_id")
     @Getter
     private int id;
     

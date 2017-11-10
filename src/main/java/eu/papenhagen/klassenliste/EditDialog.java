@@ -7,7 +7,12 @@ package eu.papenhagen.klassenliste;
 
 import eu.papenhagen.klassenliste.entity.Country;
 import eu.papenhagen.klassenliste.entity.Member;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -80,8 +85,13 @@ public class EditDialog extends Dialog {
         Label countryLable = new Label("Land: ");
         TextField countryTextField = new TextField();
 
+        Iterator<Country> iterator = m.getCountry().iterator();
+        Country c = null;
+        if (iterator.hasNext()) {
+            c = iterator.next();
+        }
         //first letter is Uppercase
-        countryTextField.setText(m.getCountry().getCountryname().substring(0, 1).toUpperCase() + m.getCountry().getCountryname().substring(1));
+        countryTextField.setText(c.getCountryname().substring(0, 1).toUpperCase() + c.getCountryname().substring(1));
         countryTextField.deselect();
 
         //bemerkung
@@ -126,8 +136,10 @@ public class EditDialog extends Dialog {
             //the create of a new Member need a own ID and not the default ID
             if (isNewMember) {
                 //create new Member for this
+                Set<Country> countryset = new HashSet<>();
                 Country country = new Country(0, "germany");
-                Member tempm = new Member(ms.getlastID() + 1, "", "", true, 12, "", country);
+                countryset.add(country);
+                Member tempm = new Member(ms.getlastID() + 1, "", "", true, 12, "", countryset);
                 m = tempm;
             }
             m.setName(nameTextField.getText());

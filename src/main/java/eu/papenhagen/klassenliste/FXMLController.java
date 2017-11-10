@@ -4,9 +4,11 @@ import eu.papenhagen.klassenliste.entity.Country;
 import eu.papenhagen.klassenliste.entity.Member;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -56,8 +58,10 @@ public class FXMLController implements Initializable {
     @FXML
     void pressedAddButton(ActionEvent event) {
         //create new Member
-        Country country = new Country(1, "germany");
-        Member m = new Member(999999, "Name", "Nachname", true, 12, "Bemerkung", country);
+        Set<Country> countryset = new HashSet<>();
+        Country country = new Country(0, "germany");
+        countryset.add(country);
+        Member m = new Member(999999, "Name", "Nachname", true, 12, "Bemerkung", countryset);
 
         EditDialog ep = new EditDialog();
         ep.EditDialog(m);
