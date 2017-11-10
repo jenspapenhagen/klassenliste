@@ -7,15 +7,16 @@ package eu.papenhagen.klassenliste;
 
 import eu.papenhagen.klassenliste.entity.Country;
 import eu.papenhagen.klassenliste.entity.Member;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
@@ -83,16 +84,17 @@ public class EditDialog extends Dialog {
 
         //country
         Label countryLable = new Label("Land: ");
-        TextField countryTextField = new TextField();
+        ObservableList<String> countrylist = FXCollections.observableArrayList();
 
-        Iterator<Country> iterator = m.getCountry().iterator();
-        Country c = null;
-        if (iterator.hasNext()) {
-            c = iterator.next();
-        }
-        //first letter is Uppercase
-        countryTextField.setText(c.getCountryname().substring(0, 1).toUpperCase() + c.getCountryname().substring(1));
-        countryTextField.deselect();
+        CountryService cs = new CountryService();
+        cs.getDate().stream()
+                .map((coutry) -> coutry.getCountryname().substring(0, 1).toUpperCase() + coutry.getCountryname().substring(1)) //first letter is Uppercase
+                .forEachOrdered((countryname) -> {
+
+                    countrylist.add(countryname);
+                });
+
+        ComboBox countrycomboBox = new ComboBox(countrylist);
 
         //bemerkung
         Label bemerkungLable = new Label("Bemerkung: ");
@@ -103,7 +105,7 @@ public class EditDialog extends Dialog {
                 nachnameLable, nachnameTextField,
                 hb,
                 alterLable, alterTextField,
-                countryLable, countryTextField,
+                countryLable, countrycomboBox,
                 bemerkungLable, bemerkungTextArea);
 
         Dialog<Member> dialog = new Dialog<>();

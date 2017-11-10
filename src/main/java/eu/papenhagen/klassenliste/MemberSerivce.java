@@ -15,9 +15,6 @@ import org.hibernate.Transaction;
  * @author jay
  */
 public class MemberSerivce {
-
-    private EntityManager em = new EntityManager();
-
     /**
      * get all member form the db table member
      *
