@@ -8,6 +8,7 @@ package eu.papenhagen.klassenliste;
 import eu.papenhagen.klassenliste.entity.Country;
 import eu.papenhagen.klassenliste.entity.Member;
 import java.util.Optional;
+import java.util.function.UnaryOperator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -20,11 +21,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
+import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.converter.IntegerStringConverter;
 
 /**
  * Edit Pane this get use in Edit and Create New Member
@@ -40,16 +44,17 @@ public class EditDialog extends Dialog {
         boolean isNewMember = false;
         //id 
         //are not shown
+        
         //name
         Label nameLable = new Label("Name: ");
         TextField nameTextField = new TextField();
-
         nameTextField.setText(m.getName());
         nameTextField.deselect();
+        
+        
         //nachname
         Label nachnameLable = new Label("Nachname: ");
         TextField nachnameTextField = new TextField();
-
         nachnameTextField.setText(m.getNachname());
         nachnameTextField.deselect();
 
@@ -72,12 +77,14 @@ public class EditDialog extends Dialog {
         hb.setSpacing(5);
         hb.getChildren().addAll(genderLable, genderM, genderF);
 
-        //alter
+        //age
         Label alterLable = new Label("Alter: ");
         TextField alterTextField = new TextField();
 
         alterTextField.setText("" + m.getAge());
         alterTextField.deselect();
+        //only allow numbers
+        alterTextField.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(), 0, integerFilter));
 
         //country
         Label countryLable = new Label("Land: ");
@@ -106,6 +113,7 @@ public class EditDialog extends Dialog {
                 countryLable, countrycomboBox,
                 bemerkungLable, bemerkungTextArea);
 
+        //build the "frame"
         Dialog<Member> dialog = new Dialog<>();
 
         if (m.getName().equals("Name")) {
@@ -173,5 +181,13 @@ public class EditDialog extends Dialog {
         }
 
     }
+
+    private UnaryOperator<Change> integerFilter = change -> {
+        String newText = change.getControlNewText();
+        if (newText.matches("-?([1-9][0-9]*)?")) {
+            return change;
+        }
+        return null;
+    };
 
 }
