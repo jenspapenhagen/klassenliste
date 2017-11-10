@@ -152,7 +152,6 @@ public class EditDialog extends Dialog {
             //set country
             for (Country country : cs.getDate()) {
                 if (countrycomboBox.getValue().equals(country.getCountryname().substring(0, 1).toUpperCase() + country.getCountryname().substring(1))) {
-                    System.out.println("jooo is equles");
                     m.setCountry(country);
                 }
             }
