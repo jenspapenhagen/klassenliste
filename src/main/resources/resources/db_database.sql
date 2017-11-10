@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 10. Nov 2017 um 16:12
+-- Erstellungszeit: 10. Nov 2017 um 16:25
 -- Server-Version: 10.1.13-MariaDB
 -- PHP-Version: 7.0.6
 
@@ -26,10 +26,16 @@ SET time_zone = "+00:00";
 -- Tabellenstruktur für Tabelle `country`
 --
 
-CREATE TABLE `country` (
+CREATE TABLE IF NOT EXISTS `country` (
   `country_id` int(11) NOT NULL,
-  `countryname` varchar(100) CHARACTER SET utf32 COLLATE utf32_german2_ci NOT NULL
+  `countryname` varchar(100) CHARACTER SET utf32 COLLATE utf32_german2_ci NOT NULL,
+  PRIMARY KEY (`country_id`),
+  KEY `country_id` (`country_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- RELATIONEN DER TABELLE `country`:
+--
 
 --
 -- Daten für Tabelle `country`
@@ -51,15 +57,26 @@ INSERT INTO `country` (`country_id`, `countryname`) VALUES
 -- Tabellenstruktur für Tabelle `member`
 --
 
-CREATE TABLE `member` (
+CREATE TABLE IF NOT EXISTS `member` (
   `id` mediumint(8) UNSIGNED NOT NULL,
   `name` varchar(255) CHARACTER SET utf32 COLLATE utf32_german2_ci DEFAULT NULL,
   `nachname` varchar(255) CHARACTER SET utf32 COLLATE utf32_german2_ci DEFAULT NULL,
   `gender` tinyint(1) DEFAULT NULL,
   `age` mediumint(9) DEFAULT NULL,
   `country_id` int(11) DEFAULT NULL,
-  `bemerkung` varchar(255) DEFAULT NULL
+  `bemerkung` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `country_id` (`country_id`),
+  KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- RELATIONEN DER TABELLE `member`:
+--   `country_id`
+--       `country` -> `country_id`
+--   `country_id`
+--       `country` -> `country_id`
+--
 
 --
 -- Daten für Tabelle `member`
@@ -168,25 +185,6 @@ INSERT INTO `member` (`id`, `name`, `nachname`, `gender`, `age`, `country_id`, `
 (100, 'Deacon', 'Britt', 1, 49, 5, NULL);
 
 --
--- Indizes der exportierten Tabellen
---
-
---
--- Indizes für die Tabelle `country`
---
-ALTER TABLE `country`
-  ADD PRIMARY KEY (`country_id`),
-  ADD KEY `country_id` (`country_id`);
-
---
--- Indizes für die Tabelle `member`
---
-ALTER TABLE `member`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `country_id` (`country_id`),
-  ADD KEY `id` (`id`);
-
---
 -- Constraints der exportierten Tabellen
 --
 
@@ -195,6 +193,38 @@ ALTER TABLE `member`
 --
 ALTER TABLE `member`
   ADD CONSTRAINT `member_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`);
+
+
+--
+-- Metadaten
+--
+USE `phpmyadmin`;
+
+--
+-- Metadaten für country
+--
+
+--
+-- Metadaten für member
+--
+
+--
+-- Metadaten für db_database
+--
+
+--
+-- Daten für Tabelle `pma__relation`
+--
+
+INSERT INTO `pma__relation` (`master_db`, `master_table`, `master_field`, `foreign_db`, `foreign_table`, `foreign_field`) VALUES
+('db_database', 'member', 'country_id', 'db_database', 'country', 'country_id');
+
+--
+-- Daten für Tabelle `pma__central_columns`
+--
+
+INSERT INTO `pma__central_columns` (`db_name`, `col_name`, `col_type`, `col_length`, `col_collation`, `col_isNull`, `col_extra`, `col_default`) VALUES
+('db_database', 'country', 'mediumint', '9', '', 1, ',', '');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
