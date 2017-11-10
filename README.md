@@ -6,19 +6,25 @@ klassenliste
  
 The main Window
 
-![alt text](https://raw.githubusercontent.com/jenspapenhagen/klassenliste/master/src/main/resources/images/mainwindow.JPG)
+![Mainwindow](https://raw.githubusercontent.com/jenspapenhagen/klassenliste/master/src/main/resources/images/mainwindow.jpg)
 
 Edit Dialog:
 
-![alt text](https://raw.githubusercontent.com/jenspapenhagen/klassenliste/master/src/main/resources/images/addMemberWindow.JPG)
+![Edit Dialog](https://raw.githubusercontent.com/jenspapenhagen/klassenliste/master/src/main/resources/images/addMemberWindow.jpg)
+
+The ERD:
+
+![Entity-Realtionship-Diagramme](https://raw.githubusercontent.com/jenspapenhagen/klassenliste/master/src/main/resources/images/erd.png)
+
 
 # Install
 
+```sql
 create database db_database
+db_database < [db_database.sql](https://raw.githubusercontent.com/jenspapenhagen/klassenliste/master/src/main/resources/resources/db_database.sql)
+```
 
-import this SQL-File (https://raw.githubusercontent.com/jenspapenhagen/klassenliste/master/src/main/resources/resources/member.sql)
-
-than git clone 
-and
+```bash
+git clone 
 mvn clean install
-
+```

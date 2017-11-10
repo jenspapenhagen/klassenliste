@@ -5,6 +5,7 @@
  */
 package eu.papenhagen.klassenliste;
 
+import eu.papenhagen.klassenliste.entity.Country;
 import eu.papenhagen.klassenliste.entity.Member;
 import java.util.Optional;
 import javafx.geometry.Insets;
@@ -53,8 +54,8 @@ public class EditDialog extends Dialog {
         ToggleGroup group = new ToggleGroup();
         HBox hb = new HBox();
         Label genderLable = new Label("Geschlecht: ");
-        RadioButton genderM = new RadioButton ("Männlich");
-        RadioButton genderF = new RadioButton ("Weiblich");
+        RadioButton genderM = new RadioButton("Männlich");
+        RadioButton genderF = new RadioButton("Weiblich");
         genderM.setToggleGroup(group);
         genderF.setToggleGroup(group);
         //preselect
@@ -67,7 +68,6 @@ public class EditDialog extends Dialog {
         hb.setPadding(new Insets(10));
         hb.setSpacing(5);
         hb.getChildren().addAll(genderLable, genderM, genderF);
-        
 
         //alter
         Label alterLable = new Label("Alter: ");
@@ -76,6 +76,14 @@ public class EditDialog extends Dialog {
         alterTextField.setText("" + m.getAge());
         alterTextField.deselect();
 
+        //country
+        Label countryLable = new Label("Land: ");
+        TextField countryTextField = new TextField();
+
+        //first letter is Uppercase
+        countryTextField.setText(m.getCountry().getCountryname().substring(0, 1).toUpperCase() + m.getCountry().getCountryname().substring(1));
+        countryTextField.deselect();
+
         //bemerkung
         Label bemerkungLable = new Label("Bemerkung: ");
         TextArea bemerkungTextArea = new TextArea();
@@ -83,8 +91,9 @@ public class EditDialog extends Dialog {
 
         VBox vb = new VBox(nameLable, nameTextField,
                 nachnameLable, nachnameTextField,
-                 hb,
+                hb,
                 alterLable, alterTextField,
+                countryLable, countryTextField,
                 bemerkungLable, bemerkungTextArea);
 
         Dialog<Member> dialog = new Dialog<>();
@@ -99,7 +108,6 @@ public class EditDialog extends Dialog {
         }
 
         dialog.setResizable(true);
-        
 
         DialogPane dialogPane = dialog.getDialogPane();
         dialogPane.setContent(vb);
@@ -107,7 +115,7 @@ public class EditDialog extends Dialog {
 
         Button okButton = (Button) dialogPane.lookupButton(ButtonType.OK);
         okButton.setText("Speichern");
-        
+
         //set icon
         Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.png")));
@@ -118,7 +126,8 @@ public class EditDialog extends Dialog {
             //the create of a new Member need a own ID and not the default ID
             if (isNewMember) {
                 //create new Member for this
-                Member tempm = new Member(ms.getlastID() + 1, "", "", true, 12, "");
+                Country country = new Country(0, "germany");
+                Member tempm = new Member(ms.getlastID() + 1, "", "", true, 12, "", country);
                 m = tempm;
             }
             m.setName(nameTextField.getText());
@@ -126,7 +135,7 @@ public class EditDialog extends Dialog {
 
             //get the selecte of the gender checkbox
             boolean gender = true;
-            if(genderF.isSelected()) {
+            if (genderF.isSelected()) {
                 gender = false;
             }
 

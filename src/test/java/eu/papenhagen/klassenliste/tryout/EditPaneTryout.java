@@ -6,6 +6,7 @@
 package eu.papenhagen.klassenliste.tryout;
 
 import eu.papenhagen.klassenliste.EditDialog;
+import eu.papenhagen.klassenliste.entity.Country;
 import eu.papenhagen.klassenliste.entity.Member;
 import java.util.concurrent.CountDownLatch;
 import javafx.application.Platform;
@@ -18,8 +19,6 @@ import org.junit.Test;
  */
 public class EditPaneTryout {
 
-    public boolean complete = false;
-
     @Test
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public void tryout() throws InterruptedException {
@@ -29,7 +28,8 @@ public class EditPaneTryout {
         final CountDownLatch B = new CountDownLatch(1);
         
         Platform.runLater(() -> {
-            Member m = new Member(9999, "name", "nachname", true, 35, "bemerkung");
+            Country country = new Country(1, "germany");
+            Member m = new Member(9999, "name", "nachname", true, 35, "bemerkung", country);
 
             EditDialog ep = new EditDialog();
             ep.EditDialog(m);

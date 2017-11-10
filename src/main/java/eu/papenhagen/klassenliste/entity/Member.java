@@ -5,6 +5,7 @@
  */
 package eu.papenhagen.klassenliste.entity;
 
+import java.io.Serializable;
 import javax.persistence.*;
 
 import lombok.*;
@@ -17,7 +18,7 @@ import lombok.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "member")
-public class Member {
+public class Member implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,12 +51,18 @@ public class Member {
     @Column(name = "bemerkung")
     private String bemerkung;
 
+    @Getter
+    @Setter
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "id")
+    private Country country;
+
     public Member() {
     }
 
     @Override
     public String toString() {
-        return "Member{" + "id=" + id + ", name=" + name + ", nachname=" + nachname + ", gender=" + gender + ", age=" + age + '}';
+        return "Member{" + "id=" + id + ", name=" + name + ", nachname=" + nachname + ", gender=" + gender + ", age=" + age + ", bemerkung=" + bemerkung + ", country=" + country.getCountryname() + '}';
     }
 
 }

@@ -1,5 +1,6 @@
 package eu.papenhagen.klassenliste;
 
+import eu.papenhagen.klassenliste.entity.Country;
 import eu.papenhagen.klassenliste.entity.Member;
 import java.io.InputStream;
 import java.net.URL;
@@ -40,6 +41,8 @@ public class FXMLController implements Initializable {
     @FXML
     private TableColumn age;
     @FXML
+    private TableColumn country;
+    @FXML
     private TableColumn bemerkung;
 
     private MemberSerivce ms = new MemberSerivce();
@@ -53,7 +56,8 @@ public class FXMLController implements Initializable {
     @FXML
     void pressedAddButton(ActionEvent event) {
         //create new Member
-        Member m = new Member(999999, "Name", "Nachname", true, 12, "Bemerkung");
+        Country country = new Country(1, "germany");
+        Member m = new Member(999999, "Name", "Nachname", true, 12, "Bemerkung", country);
 
         EditDialog ep = new EditDialog();
         ep.EditDialog(m);
@@ -78,6 +82,7 @@ public class FXMLController implements Initializable {
         nachname.setCellValueFactory(new PropertyValueFactory<Member, String>("nachname"));
         gender.setCellValueFactory(new PropertyValueFactory<Member, Image>("gender"));
         age.setCellValueFactory(new PropertyValueFactory<Member, Integer>("age"));
+        country.setCellValueFactory(new PropertyValueFactory<Country, String>("country"));
         bemerkung.setCellValueFactory(new PropertyValueFactory<Member, String>("bemerkung"));
 
         //add images and tooltip
@@ -179,7 +184,7 @@ public class FXMLController implements Initializable {
             //remove the Member from the ObservableList
             data.remove(m);
         }
-        
+
         //refrech table after delete
         table.refresh();
 
