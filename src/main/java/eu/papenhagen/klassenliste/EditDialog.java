@@ -39,19 +39,18 @@ public class EditDialog extends Dialog {
 
     private MemberSerivce ms = new MemberSerivce();
 
-    public void EditDialog(Member m) {
+    public Dialog<Member> EditDialog(Member m) {
 
         boolean isNewMember = false;
         //id 
         //are not shown
-        
+
         //name
         Label nameLable = new Label("Name: ");
         TextField nameTextField = new TextField();
         nameTextField.setText(m.getName());
         nameTextField.deselect();
-        
-        
+
         //nachname
         Label nachnameLable = new Label("Nachname: ");
         TextField nachnameTextField = new TextField();
@@ -129,6 +128,8 @@ public class EditDialog extends Dialog {
 
         DialogPane dialogPane = dialog.getDialogPane();
         dialogPane.setContent(vb);
+        dialogPane.getStylesheets().add(getClass().getResource("/styles/Styles.css").toExternalForm());
+        dialogPane.getStyleClass().add("edit-pane");
         dialogPane.getButtonTypes().addAll(ButtonType.CANCEL, ButtonType.OK);
 
         Button okButton = (Button) dialogPane.lookupButton(ButtonType.OK);
@@ -180,6 +181,7 @@ public class EditDialog extends Dialog {
             dialog.close();
         }
 
+        return dialog;
     }
 
     private UnaryOperator<Change> integerFilter = change -> {

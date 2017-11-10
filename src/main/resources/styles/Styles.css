@@ -1,7 +1,13 @@
 .mainFxmlClass {
     -fx-background-color: #707070;
 }
+.edit-pane {
+ -fx-background-color: #FFFFFF;
+}
 
+.edit-background-pane {
+ -fx-background-color: rgba(64, 64, 64, 0.85);
+}
 .button{
     -fx-background-color: 
         #000000,
