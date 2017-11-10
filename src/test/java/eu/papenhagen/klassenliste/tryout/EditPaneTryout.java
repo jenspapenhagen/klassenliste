@@ -8,8 +8,6 @@ package eu.papenhagen.klassenliste.tryout;
 import eu.papenhagen.klassenliste.EditDialog;
 import eu.papenhagen.klassenliste.entity.Country;
 import eu.papenhagen.klassenliste.entity.Member;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
@@ -30,10 +28,8 @@ public class EditPaneTryout {
         final CountDownLatch B = new CountDownLatch(1);
 
         Platform.runLater(() -> {
-            List<Country> countrylist = new ArrayList<>();
             Country country = new Country(0, "germany");
-            countrylist.add(country);
-            Member m = new Member(9999, "name", "nachname", true, 35, "bemerkung", countrylist);
+            Member m = new Member(9999, "name", "nachname", true, 35, "bemerkung", country);
 
             EditDialog ep = new EditDialog();
             ep.EditDialog(m);

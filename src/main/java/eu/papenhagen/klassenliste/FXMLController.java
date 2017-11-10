@@ -57,10 +57,8 @@ public class FXMLController implements Initializable {
     @FXML
     void pressedAddButton(ActionEvent event) {
         //create new Member
-        List<Country> countrylist = new ArrayList<>();
         Country country = new Country(0, "germany");
-        countrylist.add(country);
-        Member m = new Member(999999, "Name", "Nachname", true, 12, "Bemerkung", countrylist);
+        Member m = new Member(999999, "Name", "Nachname", true, 12, "Bemerkung", country);
 
         EditDialog ep = new EditDialog();
         ep.EditDialog(m);

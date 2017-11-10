@@ -6,7 +6,6 @@
 package eu.papenhagen.klassenliste.entity;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.*;
 
 import lombok.*;
@@ -54,16 +53,16 @@ public class Member implements Serializable {
 
     @Getter
     @Setter
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "country_id")
-    private List<Country> country;
+    private Country country;
 
     public Member() {
     }
 
     @Override
     public String toString() {
-        return "Member{" + "id=" + id + ", name=" + name + ", nachname=" + nachname + ", gender=" + gender + ", age=" + age + ", bemerkung=" + bemerkung + ", country=" + country.iterator().next().getCountryname() + '}';
+        return "Member{" + "id=" + id + ", name=" + name + ", nachname=" + nachname + ", gender=" + gender + ", age=" + age + ", bemerkung=" + bemerkung + ", country=" + country.getCountryname() + '}';
     }
 
 }

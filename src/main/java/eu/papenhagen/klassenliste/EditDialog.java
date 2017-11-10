@@ -7,11 +7,7 @@ package eu.papenhagen.klassenliste;
 
 import eu.papenhagen.klassenliste.entity.Country;
 import eu.papenhagen.klassenliste.entity.Member;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -96,6 +92,7 @@ public class EditDialog extends Dialog {
                 });
 
         ComboBox countrycomboBox = new ComboBox(countryobservablelist);
+        countrycomboBox.setValue( m.getCountry().getCountryname().substring(0, 1).toUpperCase() + m.getCountry().getCountryname().substring(1) );
 
         //bemerkung
         Label bemerkungLable = new Label("Bemerkung: ");
@@ -139,10 +136,8 @@ public class EditDialog extends Dialog {
             //the create of a new Member need a own ID and not the default ID
             if (isNewMember) {
                 //create new Member for this
-                List<Country> countrylist = new ArrayList<>();
                 Country country = new Country(0, "germany");
-                countrylist.add(country);
-                Member tempm = new Member(ms.getlastID() + 1, "", "", true, 12, "", countrylist);
+                Member tempm = new Member(ms.getlastID() + 1, "", "", true, 12, "", country);
                 m = tempm;
             }
             m.setName(nameTextField.getText());
