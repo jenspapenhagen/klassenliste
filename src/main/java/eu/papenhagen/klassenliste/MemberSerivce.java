@@ -24,7 +24,7 @@ public class MemberSerivce {
     public List<Member> getDate() {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
-        //String hql="from Member inner join member.country as country";
+        //String hql="select m from Member member join fetch member.country as country";
         //String hql="from Member";
         
         String sqlQuery="SELECT * FROM member INNER JOIN country ON member.country_id = country.country_id";

@@ -92,7 +92,7 @@ public class EditDialog extends Dialog {
                 });
 
         ComboBox countrycomboBox = new ComboBox(countryobservablelist);
-        countrycomboBox.setValue( m.getCountry().getCountryname().substring(0, 1).toUpperCase() + m.getCountry().getCountryname().substring(1) );
+        countrycomboBox.setValue(m.getCountry().getCountryname().substring(0, 1).toUpperCase() + m.getCountry().getCountryname().substring(1));
 
         //bemerkung
         Label bemerkungLable = new Label("Bemerkung: ");
@@ -147,6 +147,14 @@ public class EditDialog extends Dialog {
             boolean gender = true;
             if (genderF.isSelected()) {
                 gender = false;
+            }
+
+            //set country
+            for (Country country : cs.getDate()) {
+                if (countrycomboBox.getValue().equals(country.getCountryname().substring(0, 1).toUpperCase() + country.getCountryname().substring(1))) {
+                    System.out.println("jooo is equles");
+                    m.setCountry(country);
+                }
             }
 
             m.setGender(gender);
