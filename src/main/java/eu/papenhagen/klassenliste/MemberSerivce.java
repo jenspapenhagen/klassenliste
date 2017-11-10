@@ -9,6 +9,7 @@ import eu.papenhagen.klassenliste.entity.Member;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.NativeQuery;
 
 /**
  *
@@ -23,11 +24,13 @@ public class MemberSerivce {
     public List<Member> getDate() {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
-        String hql="from Member as member inner join member.country as country";
+        //String hql="from Member inner join member.country as country";
         //String hql="from Member";
-        //String sqlQuery="SELECT * FROM member INNER JOIN country ON member.country_id = country.country_id";
-        List<Member> memberList = session.createQuery(hql).list();
-
+        
+        String sqlQuery="SELECT * FROM member INNER JOIN country ON member.country_id = country.country_id";
+        NativeQuery<Member> createNativeQuery = session.createNativeQuery(sqlQuery, Member.class);
+        List<Member> memberList = createNativeQuery.getResultList();
+        
         return memberList;
     }
 

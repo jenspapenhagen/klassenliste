@@ -4,11 +4,10 @@ import eu.papenhagen.klassenliste.entity.Country;
 import eu.papenhagen.klassenliste.entity.Member;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -58,10 +57,10 @@ public class FXMLController implements Initializable {
     @FXML
     void pressedAddButton(ActionEvent event) {
         //create new Member
-        Set<Country> countryset = new HashSet<>();
+        List<Country> countrylist = new ArrayList<>();
         Country country = new Country(0, "germany");
-        countryset.add(country);
-        Member m = new Member(999999, "Name", "Nachname", true, 12, "Bemerkung", countryset);
+        countrylist.add(country);
+        Member m = new Member(999999, "Name", "Nachname", true, 12, "Bemerkung", countrylist);
 
         EditDialog ep = new EditDialog();
         ep.EditDialog(m);
@@ -86,7 +85,7 @@ public class FXMLController implements Initializable {
         nachname.setCellValueFactory(new PropertyValueFactory<Member, String>("nachname"));
         gender.setCellValueFactory(new PropertyValueFactory<Member, Image>("gender"));
         age.setCellValueFactory(new PropertyValueFactory<Member, Integer>("age"));
-        country.setCellValueFactory(new PropertyValueFactory<Country, String>("country"));
+        country.setCellValueFactory(new PropertyValueFactory<Member, String>("country_id"));
         bemerkung.setCellValueFactory(new PropertyValueFactory<Member, String>("bemerkung"));
 
         //add images and tooltip

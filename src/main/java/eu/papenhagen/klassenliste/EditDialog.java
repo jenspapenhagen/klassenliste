@@ -7,8 +7,9 @@ package eu.papenhagen.klassenliste;
 
 import eu.papenhagen.klassenliste.entity.Country;
 import eu.papenhagen.klassenliste.entity.Member;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import javafx.collections.FXCollections;
@@ -84,17 +85,18 @@ public class EditDialog extends Dialog {
 
         //country
         Label countryLable = new Label("Land: ");
-        ObservableList<String> countrylist = FXCollections.observableArrayList();
+        ObservableList<String> countryobservablelist = FXCollections.observableArrayList();
 
         CountryService cs = new CountryService();
         cs.getDate().stream()
                 .map((coutry) -> coutry.getCountryname().substring(0, 1).toUpperCase() + coutry.getCountryname().substring(1)) //first letter is Uppercase
                 .forEachOrdered((countryname) -> {
 
-                    countrylist.add(countryname);
+                    countryobservablelist.add(countryname);
                 });
 
-        ComboBox countrycomboBox = new ComboBox(countrylist);
+        ComboBox countrycomboBox = new ComboBox(countryobservablelist);
+        countrycomboBox.setValue(m.getCountry().get(0));
 
         //bemerkung
         Label bemerkungLable = new Label("Bemerkung: ");
@@ -138,10 +140,10 @@ public class EditDialog extends Dialog {
             //the create of a new Member need a own ID and not the default ID
             if (isNewMember) {
                 //create new Member for this
-                Set<Country> countryset = new HashSet<>();
+                List<Country> countrylist = new ArrayList<>();
                 Country country = new Country(0, "germany");
-                countryset.add(country);
-                Member tempm = new Member(ms.getlastID() + 1, "", "", true, 12, "", countryset);
+                countrylist.add(country);
+                Member tempm = new Member(ms.getlastID() + 1, "", "", true, 12, "", countrylist);
                 m = tempm;
             }
             m.setName(nameTextField.getText());
