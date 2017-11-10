@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 10. Nov 2017 um 14:33
+-- Erstellungszeit: 10. Nov 2017 um 16:12
 -- Server-Version: 10.1.13-MariaDB
 -- PHP-Version: 7.0.6
 
@@ -57,7 +57,7 @@ CREATE TABLE `member` (
   `nachname` varchar(255) CHARACTER SET utf32 COLLATE utf32_german2_ci DEFAULT NULL,
   `gender` tinyint(1) DEFAULT NULL,
   `age` mediumint(9) DEFAULT NULL,
-  `country_id` mediumint(9) DEFAULT NULL,
+  `country_id` int(11) DEFAULT NULL,
   `bemerkung` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -176,29 +176,26 @@ INSERT INTO `member` (`id`, `name`, `nachname`, `gender`, `age`, `country_id`, `
 --
 ALTER TABLE `country`
   ADD PRIMARY KEY (`country_id`),
-  ADD UNIQUE KEY `ID_2` (`country_id`),
-  ADD KEY `ID` (`country_id`);
+  ADD KEY `country_id` (`country_id`);
 
 --
 -- Indizes für die Tabelle `member`
 --
 ALTER TABLE `member`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `id_2` (`id`),
-  ADD KEY `id` (`id`),
-  ADD KEY `id_3` (`id`),
-  ADD KEY `country` (`country_id`),
-  ADD KEY `country_2` (`country_id`);
+  ADD KEY `country_id` (`country_id`),
+  ADD KEY `id` (`id`);
 
 --
--- AUTO_INCREMENT für exportierte Tabellen
+-- Constraints der exportierten Tabellen
 --
 
 --
--- AUTO_INCREMENT für Tabelle `member`
+-- Constraints der Tabelle `member`
 --
 ALTER TABLE `member`
-  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+  ADD CONSTRAINT `member_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`);
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

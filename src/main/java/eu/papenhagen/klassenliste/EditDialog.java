@@ -96,7 +96,6 @@ public class EditDialog extends Dialog {
                 });
 
         ComboBox countrycomboBox = new ComboBox(countryobservablelist);
-        countrycomboBox.setValue(m.getCountry().get(0));
 
         //bemerkung
         Label bemerkungLable = new Label("Bemerkung: ");

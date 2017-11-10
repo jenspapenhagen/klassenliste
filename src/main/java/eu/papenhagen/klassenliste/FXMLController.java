@@ -85,7 +85,7 @@ public class FXMLController implements Initializable {
         nachname.setCellValueFactory(new PropertyValueFactory<Member, String>("nachname"));
         gender.setCellValueFactory(new PropertyValueFactory<Member, Image>("gender"));
         age.setCellValueFactory(new PropertyValueFactory<Member, Integer>("age"));
-        country.setCellValueFactory(new PropertyValueFactory<Member, String>("country_id"));
+        //country.setCellValueFactory(new PropertyValueFactory<Member, String>("country_id"));
         bemerkung.setCellValueFactory(new PropertyValueFactory<Member, String>("bemerkung"));
 
         //add images and tooltip
