@@ -17,7 +17,7 @@
       </Label>
    </top>
    <bottom>
-      <HBox alignment="TOP_RIGHT" spacing="5.0" BorderPane.alignment="CENTER_RIGHT">
+      <HBox fx:id="bottombox" alignment="TOP_RIGHT" spacing="250.0" BorderPane.alignment="CENTER_RIGHT">
          <children>
             <Button fx:id="addButton" mnemonicParsing="false" onAction="#pressedAddButton" text="Neuen Member hinzufügen" />
          </children>

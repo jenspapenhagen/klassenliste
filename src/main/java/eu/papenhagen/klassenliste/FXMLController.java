@@ -4,7 +4,6 @@ import eu.papenhagen.klassenliste.entity.Country;
 import eu.papenhagen.klassenliste.entity.Member;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -30,8 +29,6 @@ import javafx.scene.image.ImageView;
 public class FXMLController implements Initializable {
 
     @FXML
-    private Button addButton;
-    @FXML
     private TableView table;
     @FXML
     private TableColumn name;
@@ -42,8 +39,6 @@ public class FXMLController implements Initializable {
     @FXML
     private TableColumn age;
     @FXML
-    private TableColumn country;
-    @FXML
     private TableColumn bemerkung;
 
     private MemberSerivce ms = new MemberSerivce();
@@ -53,7 +48,7 @@ public class FXMLController implements Initializable {
 
     //move this List to a ObservableList
     private ObservableList<Member> data = FXCollections.observableArrayList(memberlist);
-
+    
     @FXML
     void pressedAddButton(ActionEvent event) {
         //create new Member
@@ -137,6 +132,8 @@ public class FXMLController implements Initializable {
 
         //resize polixy javaFX8 
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+
     }
 
     /**

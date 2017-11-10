@@ -22,3 +22,5 @@
 hs_err_pid*
 /target/
 /nbproject/
+/JavaFXApplication1/nbproject/private/
+/JavaFXApplication1/build/
