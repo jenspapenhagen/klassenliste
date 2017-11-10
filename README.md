@@ -19,12 +19,16 @@ The ERD:
 
 # Install
 
+```bash
+wget https://raw.githubusercontent.com/jenspapenhagen/klassenliste/master/src/main/resources/resources/db_database.sql
+git clone https://github.com/jenspapenhagen/klassenliste.git
+```
+
 ```sql
 create database db_database
-db_database < [db_database.sql](https://raw.githubusercontent.com/jenspapenhagen/klassenliste/master/src/main/resources/resources/db_database.sql)
+db_database < db_database.sql
 ```
 
 ```bash
-git clone 
 mvn clean install
 ```
