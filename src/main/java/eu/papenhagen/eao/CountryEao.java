@@ -7,11 +7,13 @@ package eu.papenhagen.eao;
 
 import eu.papenhagen.klassenliste.entity.Country;
 import java.util.List;
+import javax.ejb.Stateless;
 
 /**
  *
  * @author jay
  */
+@Stateless
 public class CountryEao extends GenericEao {
 
     /**

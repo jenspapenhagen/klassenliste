@@ -25,7 +25,7 @@ import lombok.*;
    @NamedQuery(name = "Member.findByAge",
             query = "Select m From Member m Where m.age = :age")
     ,
-        @NamedQuery(name = "Member.findByCountry",
+    @NamedQuery(name = "Member.findByCountry",
             query = "Select m From Member m Where m.country = :country")
 })
 

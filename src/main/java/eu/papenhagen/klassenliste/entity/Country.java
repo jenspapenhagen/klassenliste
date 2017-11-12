@@ -18,13 +18,14 @@ import lombok.*;
 @Table(name = "country")
 @NamedQueries({
     @NamedQuery(name = "Country.findByFirstLetter",
-            query = "SELECT co FROM country co WHERE co.countryname LIKE :letter"),
+            query = "select co form Country co where co.countryname like :letter"),
      @NamedQuery(name = "Country.findByLastLetter",
-            query = "SELECT co FROM country co WHERE co.countryname LIKE :letter")    
+            query = "select co form Country co where co.countryname like :letter")    
 })
 public class Country implements Serializable {
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "country_id")
     @Getter
     private int id;
