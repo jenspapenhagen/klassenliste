@@ -5,6 +5,7 @@
  */
 package eu.papenhagen.klassenliste.entity;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.SessionFactoryObserver;
@@ -21,27 +22,20 @@ import org.slf4j.LoggerFactory;
  */
 public class HibernateUtil {
 
-    private static SessionFactory sessionFactory;
-    private static ServiceRegistry serviceRegistry;
+    private final SessionFactory sessionFactory = buildSessionFactory();
 
     private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(HibernateUtil.class);
 
-    private SessionFactory getSessionFactory() {
+    private SessionFactory buildSessionFactory() {
         try {
-            Configuration configuration = new Configuration().configure(); // configures settings from hibernate.cfg.xml
-            StandardServiceRegistryBuilder serviceRegistryBuilder = new StandardServiceRegistryBuilder();
+            // Create the SessionFactory from hibernate.cfg.xml
+            return new Configuration().configure().buildSessionFactory();
 
-            // If you miss the below line then it will complaing about a missing dialect setting
-            serviceRegistryBuilder.applySettings(configuration.getProperties());
-
-            serviceRegistry = serviceRegistryBuilder.build();
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-
-            return sessionFactory;
-        } catch (Throwable ex) {
-            System.err.println("Initial SessionFactory creation failed." + ex);
+        } catch (HibernateException ex) {
+            LOG.error("Initial SessionFactory creation failed." + ex);
             throw new ExceptionInInitializerError(ex);
         }
+
     }
 
     public Session getSession() {
@@ -86,7 +80,7 @@ public class HibernateUtil {
 
     public Transaction getTransaction(Session session) {
         Transaction beginTransaction = session.beginTransaction();
-        
+
         return beginTransaction;
     }
 
@@ -99,6 +93,6 @@ public class HibernateUtil {
      */
     public void shutdown() {
         // Close caches and connection pools
-        getSessionFactory().close();
+        sessionFactory.close();
     }
 }
