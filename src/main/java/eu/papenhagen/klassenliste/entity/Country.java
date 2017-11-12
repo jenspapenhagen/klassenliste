@@ -11,23 +11,24 @@ import lombok.*;
 
 /**
  * Country Class
+ *
  * @author jay
  */
 @AllArgsConstructor
-@Entity
+@Entity(name = "Country")
 @Table(name = "country")
 @NamedQueries({
     @NamedQuery(name = "Country.findAll",
-            query = "Select co From Country co")        
+            query = "Select co From Country co")
 })
 public class Country implements Serializable {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "country_id")
     @Getter
     private int id;
-    
+
     @Getter
     @Setter
     @Column(name = "countryname")
@@ -40,6 +41,5 @@ public class Country implements Serializable {
     public String toString() {
         return "Country{" + "ID=" + id + ", countryname=" + countryname + '}';
     }
-    
 
 }

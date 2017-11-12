@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eu.papenhagen.klassenliste;
+package eu.papenhagen.klassenliste.entity;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.SessionFactoryObserver;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -19,26 +21,40 @@ import org.slf4j.LoggerFactory;
  */
 public class HibernateUtil {
 
-    private final SessionFactory sessionFactory = buildSessionFactory();
-
-    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(HibernateUtil.class);
-
-    /**
-     * build the Session Factory
-     *
-     * @return
-     */
-    private SessionFactory buildSessionFactory() {
+    private static final SessionFactory sessionFactory;
+    private static final ServiceRegistry serviceRegistry;
+    static {
         try {
-            // Create the SessionFactory from hibernate.cfg.xml
-            return new Configuration().configure().buildSessionFactory();
+            Configuration config = getConfiguration();
+            serviceRegistry = new ServiceRegistryBuilder().applySettings(
+                    config.getProperties()).buildServiceRegistry();
+            config.setSessionFactoryObserver(new SessionFactoryObserver() {
+                private static final long serialVersionUID = 1L;
 
-        } catch (HibernateException ex) {
-            LOG.error("Initial SessionFactory creation failed." + ex);
+                @Override
+                public void sessionFactoryCreated(SessionFactory factory) {
+                }
+
+                @Override
+                public void sessionFactoryClosed(SessionFactory factory) {
+                    ServiceRegistryBuilder.destroy(serviceRegistry);
+                }
+            });
+            sessionFactory = config.buildSessionFactory(serviceRegistry);
+        } catch (Throwable ex) {
+            System.err.println("Initial SessionFactory creation failed." + ex);
             throw new ExceptionInInitializerError(ex);
         }
-
     }
+    
+    private static  Configuration getConfiguration() {
+        Configuration cfg = new Configuration();
+        cfg.configure(); //load form default place
+    
+        return cfg;
+    }
+
+    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(HibernateUtil.class);
 
     /**
      * only get the Session

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eu.papenhagen.eao;
+package eu.papenhagen.klassenliste.eao;
 
 import java.io.Serializable;
 import javax.inject.Inject;

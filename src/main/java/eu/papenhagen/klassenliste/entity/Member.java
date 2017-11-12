@@ -16,7 +16,7 @@ import lombok.*;
  * @author jay
  */
 @AllArgsConstructor
-@Entity
+@Entity(name = "Member")
 @Table(name = "member")
 @NamedQueries({
     @NamedQuery(name = "Member.findAll",
@@ -68,8 +68,7 @@ public class Member implements Serializable {
 
     @Getter
     @Setter
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "country_id")
+    @OneToOne(cascade = CascadeType.ALL)
     private Country country;
 
     public Member() {

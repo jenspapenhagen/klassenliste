@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eu.papenhagen.service;
+package eu.papenhagen.klassenliste.service;
 
-import eu.papenhagen.eao.CountryEao;
+import eu.papenhagen.klassenliste.eao.CountryEao;
 import eu.papenhagen.klassenliste.entity.Country;
 import java.util.List;
 

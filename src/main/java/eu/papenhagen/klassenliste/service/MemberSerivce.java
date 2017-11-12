@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eu.papenhagen.service;
+package eu.papenhagen.klassenliste.service;
 
-import eu.papenhagen.eao.MemberEao;
-import eu.papenhagen.klassenliste.HibernateUtil;
+import eu.papenhagen.klassenliste.eao.MemberEao;
+import eu.papenhagen.klassenliste.entity.HibernateUtil;
 import eu.papenhagen.klassenliste.emo.MemberEmo;
 import eu.papenhagen.klassenliste.entity.Member;
 import java.util.List;
@@ -19,15 +19,12 @@ import org.hibernate.Transaction;
  */
 public class MemberSerivce {
 
-    /**
-     * get all member form the db table member
-     *
-     * @return List of all Member
-     */
+    private HibernateUtil mu = new HibernateUtil();
+    
     private MemberEao mea = new MemberEao();
     private MemberEmo mem = new MemberEmo();
 
-    private HibernateUtil mu = new HibernateUtil();
+
 
     public List<Member> getDate() {
         try (Session session = mu.getSession()) {
