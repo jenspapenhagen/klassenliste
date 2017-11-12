@@ -30,7 +30,7 @@
         <property name="hbm2ddl.auto">update</property>
 
         
-        <mapping class="eu.papenhagen.klassenliste.entity.Member" />
+        <mapping resource="map/Member.hbm.xml" />
         <mapping class="eu.papenhagen.klassenliste.entity.Country" />
         
     </session-factory>

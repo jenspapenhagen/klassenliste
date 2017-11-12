@@ -68,7 +68,7 @@ public class Member {
 
     @Getter
     @Setter
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
     private Country country;
 
     public Member() {
