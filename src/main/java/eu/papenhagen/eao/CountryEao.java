@@ -23,7 +23,7 @@ public class CountryEao extends GenericEao {
     @SuppressWarnings("unchecked")
     public List<Country> findByFirstLetter(String firstletter) {
         List list = em.createNamedQuery("Country.findByFirstLetter")
-                .setParameter("letter", firstletter)
+                .setParameter("letter", "%"+firstletter)
                 .getResultList();
 
         return list;
@@ -38,7 +38,7 @@ public class CountryEao extends GenericEao {
     @SuppressWarnings("unchecked")
     public List<Country> findByLastLetter(String lastletter) {
         List list = em.createNamedQuery("Country.findByLastLetter")
-                .setParameter("letter", lastletter)
+                .setParameter("letter", lastletter+ "%")
                 .getResultList();
 
         return list;

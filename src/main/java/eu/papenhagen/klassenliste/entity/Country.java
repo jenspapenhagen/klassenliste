@@ -18,9 +18,9 @@ import lombok.*;
 @Table(name = "country")
 @NamedQueries({
     @NamedQuery(name = "Country.findByFirstLetter",
-            query = "SELECT c FROM country c LIKE ':letter%'"),
+            query = "SELECT co FROM country co WHERE co.countryname LIKE :letter"),
      @NamedQuery(name = "Country.findByLastLetter",
-            query = "SELECT c FROM country c LIKE '%:letter'")    
+            query = "SELECT co FROM country co WHERE co.countryname LIKE :letter")    
 })
 public class Country implements Serializable {
     @Id
