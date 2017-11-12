@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eu.papenhagen.klassenliste;
+package eu.papenhagen.service;
 
+import eu.papenhagen.eao.CountryEao;
+import eu.papenhagen.klassenliste.HibernateUtil;
 import eu.papenhagen.klassenliste.entity.Country;
 import java.util.List;
 import org.hibernate.Session;
@@ -14,7 +16,9 @@ import org.hibernate.Session;
  * @author jay
  */
 public class CountryService {
-    
+
+    private CountryEao mea = new CountryEao();
+
     /**
      * get all member form the db table member
      *
@@ -23,10 +27,12 @@ public class CountryService {
     public List<Country> getDate() {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
-        String hql="from Country";
-        List<Country> countryList = session.createQuery(hql).list();
+        String hql = "from Country";
+
+        //List<Country> countryList = session.createQuery(hql).list();
+        List<Country> countryList = mea.findAll();
 
         return countryList;
     }
-    
+
 }

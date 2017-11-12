@@ -5,6 +5,8 @@
  */
 package eu.papenhagen.klassenliste;
 
+import eu.papenhagen.service.CountryService;
+import eu.papenhagen.service.MemberSerivce;
 import eu.papenhagen.klassenliste.entity.Country;
 import eu.papenhagen.klassenliste.entity.Member;
 import java.util.Optional;

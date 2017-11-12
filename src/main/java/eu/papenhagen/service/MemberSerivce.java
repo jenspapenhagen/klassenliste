@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eu.papenhagen.klassenliste;
+package eu.papenhagen.service;
 
+import eu.papenhagen.eao.MemberEao;
+import eu.papenhagen.klassenliste.HibernateUtil;
+import eu.papenhagen.klassenliste.emo.MemberEmo;
 import eu.papenhagen.klassenliste.entity.Member;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.NativeQuery;
 
 /**
  *
@@ -21,15 +23,20 @@ public class MemberSerivce {
      *
      * @return List of all Member
      */
+    
+    private MemberEao mea = new MemberEao(); 
+    private MemberEmo mem = new MemberEmo();
+    
     public List<Member> getDate() {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
-        //String hql="select m from Member member join fetch member.country as country";
-        //String hql="from Member";
         
-        String sqlQuery="SELECT * FROM member INNER JOIN country ON member.country_id = country.country_id";
-        NativeQuery<Member> createNativeQuery = session.createNativeQuery(sqlQuery, Member.class);
-        List<Member> memberList = createNativeQuery.getResultList();
+//        String sqlQuery="SELECT * FROM member INNER JOIN country ON member.country_id = country.country_id";
+//        NativeQuery<Member> createNativeQuery = session.createNativeQuery(sqlQuery, Member.class);
+//        List<Member> memberList = createNativeQuery.getResultList();
+        
+        
+        List<Member> memberList = mea.findAll();
         
         return memberList;
     }

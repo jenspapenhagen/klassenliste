@@ -3,22 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eu.papenhagen.klassenliste;
+package eu.papenhagen.klassenliste.test;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import org.slf4j.LoggerFactory;
+import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
 
 /**
- * Querry the full table
  *
  * @author jay
  */
-public class EntityManager {
+public class ConnectionTest {
 
-    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(EntityManager.class);
-
+    
     /**
      * Ping the Database for fast test
      *
@@ -36,13 +35,16 @@ public class EntityManager {
             System.out.println("Connection successful!!!");
             return true;
         } catch (SQLException ex) {
-            LOG.error(ex.getMessage());
+            System.out.println(ex.getMessage());
         }
 
         return false;
     }
 
- 
+    @Test
+    public void testPingDb() {
+        
+        assertThat(pingDb()).as("Connect to the Database").isTrue();
+    }
 
-   
 }

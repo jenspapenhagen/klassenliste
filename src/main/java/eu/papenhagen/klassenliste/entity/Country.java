@@ -16,6 +16,12 @@ import lombok.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "country")
+@NamedQueries({
+    @NamedQuery(name = "Country.findByFirstLetter",
+            query = "SELECT c FROM country c LIKE ':letter%'"),
+     @NamedQuery(name = "Country.findByLastLetter",
+            query = "SELECT c FROM country c LIKE '%:letter'")    
+})
 public class Country implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -18,6 +18,18 @@ import lombok.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "member")
+@NamedQueries({
+    @NamedQuery(name = "Member.findByGender",
+            query = "SELECT m FROM member m INNER JOIN m.country_id cc where m.gender=:gender")
+    ,
+    @NamedQuery(name = "Member.findByAge",
+            query = "SELECT m FROM member m INNER JOIN m.country_id cc where m.age=:age")
+    ,
+        @NamedQuery(name = "Member.findByCountry",
+            query = "SELECT m FROM member m INNER JOIN m.country_id cc where m.country=:country")
+})
+
+//SELECT * FROM member INNER JOIN country ON member.country_id = country.country_id
 public class Member implements Serializable {
 
     @Id
