@@ -18,27 +18,28 @@ import org.hibernate.Transaction;
  * @author jay
  */
 public class MemberSerivce {
+
     /**
      * get all member form the db table member
      *
      * @return List of all Member
      */
-    
-    private MemberEao mea = new MemberEao(); 
+    private MemberEao mea = new MemberEao();
     private MemberEmo mem = new MemberEmo();
-    
+
+    private HibernateUtil mu = new HibernateUtil();
+
     public List<Member> getDate() {
-        Session session = HibernateUtil.getSession();
-        session.beginTransaction();
-        
+        try (Session session = mu.getSession()) {
+            Transaction transaction = mu.getTransaction(session);
+
 //        String sqlQuery="SELECT * FROM member INNER JOIN country ON member.country_id = country.country_id";
 //        NativeQuery<Member> createNativeQuery = session.createNativeQuery(sqlQuery, Member.class);
 //        List<Member> memberList = createNativeQuery.getResultList();
-        
-        
-        List<Member> memberList = mea.findAll();
-        
-        return memberList;
+            List<Member> memberList = mea.findAll();
+
+            return memberList;
+        }
     }
 
     /**
@@ -59,10 +60,10 @@ public class MemberSerivce {
      * @param m new Member
      */
     public void store(Member m) {
-        try (Session session = HibernateUtil.getSession()) {
-            Transaction transaction = session.beginTransaction();
-            session.save(m);
-            transaction.commit();
+        try (Session session = mu.getSession()) {
+            Transaction transaction = mu.getTransaction(session);
+            mu.saveSession(m);
+            mu.commitTransaction(transaction);
         }
     }
 
@@ -72,14 +73,14 @@ public class MemberSerivce {
      * @param m the given Member
      */
     public void update(Member m) {
-        try (Session session = HibernateUtil.getSession()) {
-            Transaction transaction = session.beginTransaction();
+        try (Session session = mu.getSession()) {
+            Transaction transaction = mu.getTransaction(session);
             if (m != null) {
-                Member tempMember = session.get(Member.class, m.getId());
+                Member tempMember = (Member) mu.getObjectBySession(Member.class, m.getId());
                 tempMember = m;
-                session.merge(m);
+                mu.mergeSession(m);
             }
-            transaction.commit();
+            mu.commitTransaction(transaction);
         }
     }
 
@@ -89,14 +90,14 @@ public class MemberSerivce {
      * @param m the given Member
      */
     public void delete(Member m) {
-        try (Session session = HibernateUtil.getSession()) {
-            Transaction transaction = session.beginTransaction();
+        try (Session session = mu.getSession()) {
+            Transaction transaction = mu.getTransaction(session);
             if (m != null) {
-                Member tempMember = session.get(Member.class, m.getId());
-                session.delete(tempMember);
+                Member tempMember = (Member) mu.getObjectBySession(Member.class, m.getId());
+                tempMember = m;
+                mu.deleteSession(m);
             }
-            transaction.commit();
+            mu.commitTransaction(transaction);
         }
     }
-
 }

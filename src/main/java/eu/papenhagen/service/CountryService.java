@@ -6,10 +6,8 @@
 package eu.papenhagen.service;
 
 import eu.papenhagen.eao.CountryEao;
-import eu.papenhagen.klassenliste.HibernateUtil;
 import eu.papenhagen.klassenliste.entity.Country;
 import java.util.List;
-import org.hibernate.Session;
 
 /**
  *
@@ -25,9 +23,9 @@ public class CountryService {
      * @return List of all Member
      */
     public List<Country> getDate() {
-        Session session = HibernateUtil.getSession();
-        session.beginTransaction();
-        String hql = "from Country";
+//        Session session = HibernateUtil.getSession();
+//         session.beginTransaction();
+//        String hql = "from Country";
 
         //List<Country> countryList = session.createQuery(hql).list();
         List<Country> countryList = mea.findAll();
