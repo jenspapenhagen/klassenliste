@@ -33,7 +33,7 @@ import lombok.*;
 })
 
 //SELECT * FROM member INNER JOIN country ON member.country_id = country.country_id
-public class Member implements Serializable {
+public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

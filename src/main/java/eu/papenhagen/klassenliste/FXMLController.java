@@ -3,6 +3,7 @@ package eu.papenhagen.klassenliste;
 import eu.papenhagen.klassenliste.service.MemberSerivce;
 import eu.papenhagen.klassenliste.entity.Country;
 import eu.papenhagen.klassenliste.entity.Member;
+import eu.papenhagen.klassenliste.service.MemberSerivceImpl;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
@@ -42,14 +43,13 @@ public class FXMLController implements Initializable {
     @FXML
     private TableColumn bemerkung;
 
-    private MemberSerivce ms = new MemberSerivce();
+    private MemberSerivce memberService = new MemberSerivceImpl();
 
     //get all member form the Database
-    private List<Member> memberlist = ms.getDate();
+    private List<Member> memberlist = memberService.listMember();
 
-    //move this List to a ObservableList
-    private ObservableList<Member> data = FXCollections.observableArrayList(memberlist);
-    
+    private ObservableList<Member> memberList = FXCollections.observableArrayList();
+
     @FXML
     void pressedAddButton(ActionEvent event) {
         //create new Member
@@ -60,10 +60,26 @@ public class FXMLController implements Initializable {
         ep.EditDialog(m);
 
         //add the new member to the ObservableList
-        data.add(m);
+        memberList.add(m);
 
         //refrech table after edit
         table.refresh();
+    }
+
+    public ObservableList<Member> getMemberlist() {
+        if (!memberList.isEmpty()) {
+            memberList.clear();
+        }
+        memberList = FXCollections.observableList((List<Member>) memberService.listMember());
+        return memberList;
+    }
+
+    public void removeMember(Integer id) {
+        memberService.removeMember(id);
+    }
+
+    public void updateContact(Member member) {
+        memberService.updateMember(member);
     }
 
     @Override
@@ -111,7 +127,7 @@ public class FXMLController implements Initializable {
         });
 
         //fill the data in the table
-        table.setItems(data);
+        table.setItems(memberList);
 
         //Create a ContextMenu
         ContextMenu contextMenu = new ContextMenu();
@@ -133,7 +149,6 @@ public class FXMLController implements Initializable {
 
         //resize polixy javaFX8 
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
 
     }
 
@@ -176,12 +191,12 @@ public class FXMLController implements Initializable {
             Optional result = dialog.showAndWait();
             //on OK save the member
             if (result.get() == ButtonType.OK && m.getAge() <= 0) {
-                ms.delete(m);
+                memberService.removeMember(m.getId());
             } else {
                 dialog.close();
             }
             //remove the Member from the ObservableList
-            data.remove(m);
+            memberList.remove(m);
         }
 
         //refrech table after delete

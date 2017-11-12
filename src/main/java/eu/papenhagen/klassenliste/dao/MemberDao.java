@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eu.papenhagen.klassenliste.service;
+package eu.papenhagen.klassenliste.dao;
 
 import eu.papenhagen.klassenliste.entity.Member;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author jay
  */
-public interface MemberSerivce {
+public interface MemberDao {
 
     public void addMember(Member member);
 
@@ -21,7 +21,4 @@ public interface MemberSerivce {
     public void removeMember(Integer id);
 
     public void updateMember(Member member);
-
-    public int getlastID();
-
 }

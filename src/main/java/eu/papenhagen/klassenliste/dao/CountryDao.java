@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eu.papenhagen.klassenliste.service;
+package eu.papenhagen.klassenliste.dao;
 
-import eu.papenhagen.klassenliste.eao.CountryEao;
 import eu.papenhagen.klassenliste.entity.Country;
 import java.util.List;
 
@@ -13,8 +12,7 @@ import java.util.List;
  *
  * @author jay
  */
-public interface CountryService {
-
+public interface CountryDao {
     public void addCountry(Country country);
 
     public List<Country> listCountry();
@@ -22,5 +20,5 @@ public interface CountryService {
     public void removeCountry(Integer id);
 
     public void updateCountry(Country country);
-
+    
 }

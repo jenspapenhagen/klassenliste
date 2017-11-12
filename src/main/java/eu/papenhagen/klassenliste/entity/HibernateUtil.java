@@ -5,11 +5,11 @@
  */
 package eu.papenhagen.klassenliste.entity;
 
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.SessionFactoryObserver;
 import org.hibernate.Transaction;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import org.slf4j.LoggerFactory;
@@ -21,58 +21,39 @@ import org.slf4j.LoggerFactory;
  */
 public class HibernateUtil {
 
-    private static final SessionFactory sessionFactory;
-    private static final ServiceRegistry serviceRegistry;
-    static {
+    private static SessionFactory sessionFactory;
+    private static ServiceRegistry serviceRegistry;
+
+    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(HibernateUtil.class);
+
+    private SessionFactory getSessionFactory() {
         try {
-            Configuration config = getConfiguration();
-            serviceRegistry = new ServiceRegistryBuilder().applySettings(
-                    config.getProperties()).buildServiceRegistry();
-            config.setSessionFactoryObserver(new SessionFactoryObserver() {
-                private static final long serialVersionUID = 1L;
+            Configuration configuration = new Configuration().configure(); // configures settings from hibernate.cfg.xml
+            StandardServiceRegistryBuilder serviceRegistryBuilder = new StandardServiceRegistryBuilder();
 
-                @Override
-                public void sessionFactoryCreated(SessionFactory factory) {
-                }
+            // If you miss the below line then it will complaing about a missing dialect setting
+            serviceRegistryBuilder.applySettings(configuration.getProperties());
 
-                @Override
-                public void sessionFactoryClosed(SessionFactory factory) {
-                    ServiceRegistryBuilder.destroy(serviceRegistry);
-                }
-            });
-            sessionFactory = config.buildSessionFactory(serviceRegistry);
+            serviceRegistry = serviceRegistryBuilder.build();
+            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+
+            return sessionFactory;
         } catch (Throwable ex) {
             System.err.println("Initial SessionFactory creation failed." + ex);
             throw new ExceptionInInitializerError(ex);
         }
     }
-    
-    private static  Configuration getConfiguration() {
-        Configuration cfg = new Configuration();
-        cfg.configure(); //load form default place
-    
-        return cfg;
-    }
 
-    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(HibernateUtil.class);
-
-    /**
-     * only get the Session
-     */
     public Session getSession() {
         Session session = sessionFactory.openSession();
 
         return session;
     }
 
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
-
     public Object getObjectBySession(Class T, int id) {
         Object output;
         try (Session session = getSession()) {
-            Transaction transaction = getTransaction(session);
+            getTransaction(session);
             output = session.get(T, id);
         }
 
@@ -105,11 +86,11 @@ public class HibernateUtil {
 
     public Transaction getTransaction(Session session) {
         Transaction beginTransaction = session.beginTransaction();
-
+        
         return beginTransaction;
     }
 
-    public void commitTransaction(Transaction transaction) {
+    private void commitTransaction(Transaction transaction) {
         transaction.commit();
     }
 

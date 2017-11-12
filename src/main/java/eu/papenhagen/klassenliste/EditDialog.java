@@ -9,6 +9,8 @@ import eu.papenhagen.klassenliste.service.CountryService;
 import eu.papenhagen.klassenliste.service.MemberSerivce;
 import eu.papenhagen.klassenliste.entity.Country;
 import eu.papenhagen.klassenliste.entity.Member;
+import eu.papenhagen.klassenliste.service.CountryServiceImpl;
+import eu.papenhagen.klassenliste.service.MemberSerivceImpl;
 import java.util.Optional;
 import java.util.function.UnaryOperator;
 import javafx.collections.FXCollections;
@@ -39,7 +41,8 @@ import javafx.util.converter.IntegerStringConverter;
  */
 public class EditDialog extends Dialog {
 
-    private MemberSerivce ms = new MemberSerivce();
+    private MemberSerivce memberService = new MemberSerivceImpl();
+    private CountryService countryService = new CountryServiceImpl();
 
     public Dialog<Member> EditDialog(Member m) {
 
@@ -91,8 +94,8 @@ public class EditDialog extends Dialog {
         Label countryLable = new Label("Land: ");
         ObservableList<String> countryobservablelist = FXCollections.observableArrayList();
 
-        CountryService cs = new CountryService();
-        cs.getDate().stream()
+
+        countryService.listCountry().stream()
                 .map((coutry) -> coutry.getCountryname().substring(0, 1).toUpperCase() + coutry.getCountryname().substring(1)) //first letter is Uppercase
                 .forEachOrdered((countryname) -> {
 
@@ -148,7 +151,7 @@ public class EditDialog extends Dialog {
             if (isNewMember) {
                 //create new Member for this
                 Country country = new Country(0, "germany");
-                Member tempm = new Member(ms.getlastID() + 1, "", "", true, 12, "", country);
+                Member tempm = new Member(memberService.getlastID() + 1, "", "", true, 12, "", country);
                 m = tempm;
             }
             m.setName(nameTextField.getText());
@@ -161,7 +164,7 @@ public class EditDialog extends Dialog {
             }
 
             //set country
-            for (Country country : cs.getDate()) {
+            for (Country country : countryService.listCountry()) {
                 if (countrycomboBox.getValue().equals(country.getCountryname().substring(0, 1).toUpperCase() + country.getCountryname().substring(1))) {
                     m.setCountry(country);
                 }
@@ -174,9 +177,9 @@ public class EditDialog extends Dialog {
 
             //create or update a member in the db
             if (isNewMember) {
-                ms.store(m);
+                memberService.addMember(m);
             } else {
-                ms.update(m);
+                memberService.updateMember(m);
             }
 
         } else {
