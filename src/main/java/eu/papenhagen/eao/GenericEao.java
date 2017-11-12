@@ -31,11 +31,7 @@ public class GenericEao implements Serializable {
         return em.merge(entity);
     }
 
-    public <T> List<T> findAll() {
-        String ge = new GenericEao().getClass().getSimpleName();
-        List<T> resultList = em.createQuery("Select t from " + ge + " t").getResultList();
-        return resultList;
-    }
+   
 
     public <T> List<T> nativeSqlQuery(String sqlQuery, Class<T> clazz) {
         Query query = em.createNativeQuery(sqlQuery, clazz);

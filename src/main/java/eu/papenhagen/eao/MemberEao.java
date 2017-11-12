@@ -17,15 +17,20 @@ import java.util.List;
 @Stateless
 public class MemberEao extends GenericEao {
 
+    public List<Member> findAll() {
+        List list = em.createNamedQuery("Member.findAll")
+                .getResultList();
+
+        return list;
+    }
+
     /**
-     * Giveback a List of all Member by given gender.
-     * Gender-Example:
-     * 
-     * male = true;
-     * female = false;
-     * 
+     * Giveback a List of all Member by given gender. Gender-Example:
+     *
+     * male = true; female = false;
+     *
      * @param gender the given gender
-     * @return 
+     * @return
      */
     @SuppressWarnings("unchecked")
     public List<Member> findByGender(boolean gender) {
@@ -38,9 +43,9 @@ public class MemberEao extends GenericEao {
 
     /**
      * Giveback a List of all Member by given age.
-     * 
+     *
      * @param age for filtering
-     * @return 
+     * @return
      */
     @SuppressWarnings("unchecked")
     public List<Member> findByAge(int age) {
@@ -53,9 +58,9 @@ public class MemberEao extends GenericEao {
 
     /**
      * Giveback a List of all Member by given country.
-     * 
+     *
      * @param country for filtering
-     * @return 
+     * @return
      */
     @SuppressWarnings("unchecked")
     public List<Member> findByCountry(Country country) {

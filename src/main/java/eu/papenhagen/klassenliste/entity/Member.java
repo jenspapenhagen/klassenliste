@@ -19,6 +19,9 @@ import lombok.*;
 @Entity
 @Table(name = "member")
 @NamedQueries({
+    @NamedQuery(name = "Member.findAll",
+            query = "Select m From Member m")
+    ,
     @NamedQuery(name = "Member.findByGender",
             query = "Select m From Member m Where m.gender = :gender")
     ,

@@ -17,10 +17,8 @@ import lombok.*;
 @Entity
 @Table(name = "country")
 @NamedQueries({
-    @NamedQuery(name = "Country.findByFirstLetter",
-            query = "select co form Country co where co.countryname like :letter"),
-     @NamedQuery(name = "Country.findByLastLetter",
-            query = "select co form Country co where co.countryname like :letter")    
+    @NamedQuery(name = "Country.findAll",
+            query = "Select co From Country co")        
 })
 public class Country implements Serializable {
     
