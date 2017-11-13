@@ -19,9 +19,6 @@ import lombok.*;
 @Entity(name = "Member")
 @Table(name = "member")
 @NamedQueries({
-    @NamedQuery(name = "Member.findAll",
-            query = "Select m From Member m")
-    ,
     @NamedQuery(name = "Member.findByGender",
             query = "Select m From Member m Where m.gender = :gender")
     ,
@@ -31,8 +28,6 @@ import lombok.*;
     @NamedQuery(name = "Member.findByCountry",
             query = "Select m From Member m Where m.country = :country")
 })
-
-//SELECT * FROM member INNER JOIN country ON member.country_id = country.country_id
 public class Member {
 
     @Id
@@ -68,7 +63,8 @@ public class Member {
 
     @Getter
     @Setter
-    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    @JoinColumn(name = "country_id")
     private Country country;
 
     public Member() {

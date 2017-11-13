@@ -28,9 +28,8 @@
         <property name="format_sql">true</property>
         
         <property name="hbm2ddl.auto">update</property>
-
         
-        <mapping resource="map/Member.hbm.xml" />
+        <mapping class="eu.papenhagen.klassenliste.entity.Member" />
         <mapping class="eu.papenhagen.klassenliste.entity.Country" />
         
     </session-factory>

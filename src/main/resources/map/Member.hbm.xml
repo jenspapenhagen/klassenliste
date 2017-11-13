@@ -13,7 +13,7 @@
         <property name="gender" type="boolean" column="gender"/>
         <property name="age" type="int" column="age"/>
         <property name="bemerkung" type="string" column="bemerkung"/>
-        <one-to-many name="country" class="Country" column="countryId"/>
+        <one-to-one name="country" class="Country" column="country_id"/>
 
     </class>
     <sql-query name="findAll">	

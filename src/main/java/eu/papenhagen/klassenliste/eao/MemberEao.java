@@ -9,6 +9,7 @@ import eu.papenhagen.klassenliste.entity.Country;
 import javax.ejb.Stateless;
 import eu.papenhagen.klassenliste.entity.Member;
 import java.util.List;
+import javax.persistence.EntityManagerFactory;
 
 /**
  *
@@ -17,8 +18,16 @@ import java.util.List;
 @Stateless
 public class MemberEao extends GenericEao {
 
+    public MemberEao() {
+        EntityManagerFactory entityManagerFactory = em.getEntityManagerFactory();
+        entityManagerFactory.addNamedQuery(name = "findealles", query ="SELECT * FROM member INNER JOIN country ON member.country_id = country.country_id" );
+    }
+    
+
+//SELECT * FROM member INNER JOIN country ON member.country_id = country.country_id
     public List<Member> findAll() {
-        List list = em.createNamedQuery("Member.findAll")
+        
+        List list = em.createNativeQuery("SELECT * FROM member INNER JOIN country ON member.country_id = country.country_id")
                 .getResultList();
 
         return list;
