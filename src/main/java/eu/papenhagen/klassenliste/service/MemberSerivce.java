@@ -22,6 +22,5 @@ public interface MemberSerivce {
 
     public void updateMember(Member member);
 
-    public int getlastID();
 
 }

@@ -12,8 +12,6 @@ import eu.papenhagen.klassenliste.entity.Member;
 import eu.papenhagen.klassenliste.service.CountryServiceImpl;
 import eu.papenhagen.klassenliste.service.MemberSerivceImpl;
 import java.util.Optional;
-import java.util.function.UnaryOperator;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,14 +25,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
-import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.util.converter.IntegerStringConverter;
 
 /**
  * Edit Pane this get use in Edit and Create New Member
@@ -46,7 +41,7 @@ public class EditDialog extends Dialog {
     private MemberSerivce memberService = new MemberSerivceImpl();
     private CountryService countryService = new CountryServiceImpl();
 
-    public Dialog<Member> EditDialog(Member m) {
+    public Dialog<Member> EditDialog(Member m, int lastID) {
 
         boolean isNewMember = false;
         //id 
@@ -159,7 +154,8 @@ public class EditDialog extends Dialog {
             if (isNewMember) {
                 //create new Member for this
                 Country country = new Country(0, "germany");
-                Member tempm = new Member(memberService.getlastID() + 1, "", "", true, 12, "", country);
+                System.out.println("last ID " + lastID);
+                Member tempm = new Member(lastID + 1, "", "", true, 12, "", country);
                 m = tempm;
             }
             m.setName(nameTextField.getText());
@@ -185,8 +181,10 @@ public class EditDialog extends Dialog {
 
             //create or update a member in the db
             if (isNewMember) {
+                System.out.println("new" + m.toString());
                 memberService.addMember(m);
             } else {
+                System.out.println("update" + m.toString());
                 memberService.updateMember(m);
             }
 

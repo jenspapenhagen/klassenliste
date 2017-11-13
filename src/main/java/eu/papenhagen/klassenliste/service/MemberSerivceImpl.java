@@ -38,11 +38,4 @@ public class MemberSerivceImpl implements MemberSerivce {
         MemberDao.updateMember(member);
     }
 
-    @Override
-    public int getlastID() {
-        List<Member> memberList = listMember();
-        Member m = memberList.get(memberList.size() - 1);
-
-        return m.getId();
-    }
 }

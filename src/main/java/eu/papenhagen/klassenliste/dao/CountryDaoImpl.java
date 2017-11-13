@@ -5,7 +5,6 @@
  */
 package eu.papenhagen.klassenliste.dao;
 
-import eu.papenhagen.klassenliste.eao.CountryEao;
 import eu.papenhagen.klassenliste.entity.Country;
 import eu.papenhagen.klassenliste.entity.HibernateUtil;
 import java.util.List;

@@ -6,6 +6,8 @@ import eu.papenhagen.klassenliste.entity.Member;
 import eu.papenhagen.klassenliste.service.MemberSerivceImpl;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -57,7 +59,7 @@ public class FXMLController implements Initializable {
         Member m = new Member(999999, "Name", "Nachname", true, 12, "Bemerkung", country);
 
         EditDialog ep = new EditDialog();
-        ep.EditDialog(m);
+        ep.EditDialog(m, getLastID());
 
         //add the new member to the ObservableList
         memberList.add(m);
@@ -65,13 +67,22 @@ public class FXMLController implements Initializable {
         //refrech table after edit
         table.refresh();
     }
-
-    public void removeMember(Integer id) {
-        memberService.removeMember(id);
-    }
-
-    public void updateContact(Member member) {
-        memberService.updateMember(member);
+    
+    /**
+     * generate the Last id out of the given List 
+     * not only by size()-1 to get he last item of the list and than check the id
+     * check all items for the higths item.id
+     * 
+     * @return the maximal id form all items
+     */
+    
+    private int getLastID(){
+        List<Integer> idlist = new ArrayList<>();
+        memberlist.forEach((member) -> {
+            idlist.add(member.getId());
+        });
+        
+        return Collections.max(idlist);
     }
 
     @Override
@@ -144,6 +155,14 @@ public class FXMLController implements Initializable {
 
     }
 
+    public void removeMember(Integer id) {
+        memberService.removeMember(id);
+    }
+
+    public void updateMember(Member member) {
+        memberService.updateMember(member);
+    }
+
     /**
      * open the Edit pane with the slected Member out of the table
      */
@@ -151,11 +170,13 @@ public class FXMLController implements Initializable {
         //get the selected member
         Member m = (Member) table.getSelectionModel().getSelectedItem();
 
+        //start the Dialog and update the member  
         EditDialog ep = new EditDialog();
         if (m != null) {
-            ep.EditDialog(m);
+            ep.EditDialog(m, getLastID());
         }
 
+        
         //refrech table after edit
         table.refresh();
 

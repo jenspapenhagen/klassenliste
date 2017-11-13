@@ -32,7 +32,7 @@ public class EditPaneTryout {
             Member m = new Member(9999, "name", "nachname", true, 35, "bemerkung", country);
 
             EditDialog ep = new EditDialog();
-            ep.EditDialog(m);
+            ep.EditDialog(m, 9999);
 
             //output the member in the cli
             System.out.println(m.toString());
