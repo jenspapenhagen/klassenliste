@@ -13,6 +13,8 @@ import eu.papenhagen.klassenliste.service.CountryServiceImpl;
 import eu.papenhagen.klassenliste.service.MemberSerivceImpl;
 import java.util.Optional;
 import java.util.function.UnaryOperator;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -85,15 +87,21 @@ public class EditDialog extends Dialog {
         Label alterLable = new Label("Alter: ");
         TextField alterTextField = new TextField();
 
-        alterTextField.setText("" + m.getAge());
-        alterTextField.deselect();
-        //only allow numbers
-        alterTextField.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(), 0, integerFilter));
+        alterTextField.setText(String.valueOf(m.getAge()));
+        alterTextField.lengthProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+            if (newValue.intValue() > oldValue.intValue()) {
+                char ch = alterTextField.getText().charAt(oldValue.intValue());
+                // Check if the new character is the number or other's
+                if (!(ch >= '0' && ch <= '9')) {
+                    // if it's not number then just setText to previous one
+                    alterTextField.setText(alterTextField.getText().substring(0, alterTextField.getText().length() - 1));
+                }
+            }
+        });
 
         //country
         Label countryLable = new Label("Land: ");
         ObservableList<String> countryobservablelist = FXCollections.observableArrayList();
-
 
         countryService.listCountry().stream()
                 .map((coutry) -> coutry.getCountryname().substring(0, 1).toUpperCase() + coutry.getCountryname().substring(1)) //first letter is Uppercase
@@ -188,13 +196,5 @@ public class EditDialog extends Dialog {
 
         return dialog;
     }
-
-    private UnaryOperator<Change> integerFilter = change -> {
-        String newText = change.getControlNewText();
-        if (newText.matches("-?([1-9][0-9]*)?")) {
-            return change;
-        }
-        return null;
-    };
 
 }
