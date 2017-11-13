@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 11. Nov 2017 um 12:59
+-- Erstellungszeit: 13. Nov 2017 um 18:39
 -- Server-Version: 10.1.13-MariaDB
 -- PHP-Version: 7.0.6
 
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Datenbank: `db_database`
 --
+CREATE DATABASE IF NOT EXISTS `db_database` DEFAULT CHARACTER SET utf32 COLLATE utf32_german2_ci;
+USE `db_database`;
 
 -- --------------------------------------------------------
 
@@ -26,10 +28,13 @@ SET time_zone = "+00:00";
 -- Tabellenstruktur für Tabelle `country`
 --
 
-CREATE TABLE `country` (
-  `country_id` int(11) NOT NULL,
-  `countryname` varchar(100) CHARACTER SET utf32 COLLATE utf32_german2_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+DROP TABLE IF EXISTS `country`;
+CREATE TABLE IF NOT EXISTS `country` (
+  `country_id` int(11) NOT NULL AUTO_INCREMENT,
+  `countryname` varchar(100) CHARACTER SET utf32 COLLATE utf32_german2_ci NOT NULL,
+  PRIMARY KEY (`country_id`),
+  KEY `country_id` (`country_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf32;
 
 --
 -- Daten für Tabelle `country`
@@ -48,35 +53,22 @@ INSERT INTO `country` (`country_id`, `countryname`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `hibernate_sequence`
---
-
-CREATE TABLE `hibernate_sequence` (
-  `next_val` bigint(20) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Daten für Tabelle `hibernate_sequence`
---
-
-INSERT INTO `hibernate_sequence` (`next_val`) VALUES
-(1);
-
--- --------------------------------------------------------
-
---
 -- Tabellenstruktur für Tabelle `member`
 --
 
-CREATE TABLE `member` (
+DROP TABLE IF EXISTS `member`;
+CREATE TABLE IF NOT EXISTS `member` (
   `id` mediumint(8) UNSIGNED NOT NULL,
   `name` varchar(255) CHARACTER SET utf32 COLLATE utf32_german2_ci DEFAULT NULL,
   `nachname` varchar(255) CHARACTER SET utf32 COLLATE utf32_german2_ci DEFAULT NULL,
   `gender` tinyint(1) DEFAULT NULL,
   `age` mediumint(9) DEFAULT NULL,
   `country_id` int(11) DEFAULT NULL,
-  `bemerkung` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `bemerkung` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `country_id` (`country_id`),
+  KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf32;
 
 --
 -- Daten für Tabelle `member`
@@ -184,34 +176,6 @@ INSERT INTO `member` (`id`, `name`, `nachname`, `gender`, `age`, `country_id`, `
 (99, 'Brendan', 'Stokes', 1, 88, 2, NULL),
 (100, 'Deacon', 'Britt', 1, 49, 5, NULL);
 
---
--- Indizes der exportierten Tabellen
---
-
---
--- Indizes für die Tabelle `country`
---
-ALTER TABLE `country`
-  ADD PRIMARY KEY (`country_id`),
-  ADD KEY `country_id` (`country_id`);
-
---
--- Indizes für die Tabelle `member`
---
-ALTER TABLE `member`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `country_id` (`country_id`),
-  ADD KEY `id` (`id`);
-
---
--- Constraints der exportierten Tabellen
---
-
---
--- Constraints der Tabelle `member`
---
-ALTER TABLE `member`
-  ADD CONSTRAINT `member_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

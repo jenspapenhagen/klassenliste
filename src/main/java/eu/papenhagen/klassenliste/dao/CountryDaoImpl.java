@@ -23,7 +23,19 @@ public class CountryDaoImpl implements CountryDao {
     public void addCountry(Country country) {
         try (Session session = hibernate.getSession()) {
             hibernate.getTransaction(session);
-            hibernate.saveSession(country);
+
+            //check if the country exist, else create it
+            List<Country> countryList = listCountry();
+            boolean countryExist = false;
+            for (Country co : countryList) {
+                if (co.getCountryname().equals(country.getCountryname()) ) {
+                    countryExist = true;
+                }
+            }
+            if (countryExist) {
+                hibernate.saveSession(country);
+            }
+
         }
     }
 
@@ -34,7 +46,6 @@ public class CountryDaoImpl implements CountryDao {
             hibernate.getTransaction(session);
             String hql = "from Country";
             countryList = session.createQuery(hql).list();
-
         }
         return countryList;
     }

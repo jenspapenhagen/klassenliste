@@ -31,7 +31,7 @@ import lombok.*;
 public class Member implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     @Getter
     private int id;
