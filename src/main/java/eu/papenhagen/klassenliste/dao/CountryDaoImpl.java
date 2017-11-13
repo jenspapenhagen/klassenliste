@@ -17,44 +17,45 @@ import org.hibernate.Session;
  */
 public class CountryDaoImpl implements CountryDao {
 
-    private HibernateUtil mu = new HibernateUtil();
-    private CountryEao coa = new CountryEao();
+    private HibernateUtil hibernate = new HibernateUtil();
 
     @Override
     public void addCountry(Country country) {
-        try (Session session = mu.getSession()) {
-            mu.getTransaction(session);
-            mu.saveSession(country);
+        try (Session session = hibernate.getSession()) {
+            hibernate.getTransaction(session);
+            hibernate.saveSession(country);
         }
     }
 
     @Override
     public List<Country> listCountry() {
         List<Country> countryList;
-        try (Session session = mu.getSession()) {
-            mu.getTransaction(session);
-            countryList = coa.findAll();
+        try (Session session = hibernate.getSession()) {
+            hibernate.getTransaction(session);
+            String hql = "from Country";
+            countryList = session.createQuery(hql).list();
+
         }
         return countryList;
     }
 
     @Override
     public void removeCountry(Integer id) {
-         try (Session session = mu.getSession()) {
-            mu.getTransaction(session);
-            Country tempCountry = (Country) mu.getObjectBySession(Country.class, id);
-            mu.deleteSession(tempCountry);
+        try (Session session = hibernate.getSession()) {
+            hibernate.getTransaction(session);
+            Country tempCountry = (Country) hibernate.getObjectBySession(Country.class, id);
+            hibernate.deleteSession(tempCountry);
         }
     }
 
     @Override
     public void updateCountry(Country country) {
-        try (Session session = mu.getSession()) {
-            mu.getTransaction(session);
+        try (Session session = hibernate.getSession()) {
+            hibernate.getTransaction(session);
             if (country != null) {
-                Country tempCountry = (Country) mu.getObjectBySession(Country.class, country.getId());
+                Country tempCountry = (Country) hibernate.getObjectBySession(Country.class, country.getId());
                 tempCountry = country;
-                mu.mergeSession(country);
+                hibernate.mergeSession(country);
             }
 
         }

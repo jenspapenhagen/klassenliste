@@ -2,6 +2,7 @@ package eu.papenhagen.klassenliste;
 
 import javafx.application.Application;
 import static javafx.application.Application.launch;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,13 +13,23 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
 
-        Scene scene = new Scene(root);
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.png")));
-        stage.setTitle("Klassemliste");
-        stage.setScene(scene);
-        stage.show();
+            Scene scene = new Scene(root);
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.png")));
+            Platform.setImplicitExit(true);
+            stage.setOnCloseRequest((ae) -> {
+                Platform.exit();
+                System.exit(0);
+            });
+            stage.setTitle("Klassemliste");
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
