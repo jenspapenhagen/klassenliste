@@ -8,9 +8,7 @@ package eu.papenhagen.klassenliste.eao;
 import java.io.Serializable;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import eu.papenhagen.klassenliste.entity.AuditEntity;
-import java.util.List;
 
 /**
  *
@@ -31,18 +29,6 @@ public class GenericEao implements Serializable {
         return em.merge(entity);
     }
 
-   
-
-    public <T> List<T> nativeSqlQuery(String sqlQuery, Class<T> clazz) {
-        Query query = em.createNativeQuery(sqlQuery, clazz);
-        @SuppressWarnings("unchecked")
-        List<T> resultList = query.getResultList();
-        return resultList;
-    }
-
-    public List<?> nativeSqlQuery(String sqlQuery) {
-        Query query = em.createNativeQuery(sqlQuery);
-        return query.getResultList();
-    }
+  
 
 }

@@ -10,6 +10,11 @@ import javax.ejb.Stateless;
 import eu.papenhagen.klassenliste.entity.Member;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import javax.persistence.metamodel.EntityType;
+import javax.persistence.metamodel.Metamodel;
 
 /**
  *
@@ -18,20 +23,40 @@ import javax.persistence.EntityManagerFactory;
 @Stateless
 public class MemberEao extends GenericEao {
 
+    public enum Queries {
+        ENTITY_GET_ALL,
+        ENTITY_GET_BY_VALUE
+    }
+
     public MemberEao() {
-        EntityManagerFactory entityManagerFactory = em.getEntityManagerFactory();
-        entityManagerFactory.addNamedQuery(name = "findealles", query ="SELECT * FROM member INNER JOIN country ON member.country_id = country.country_id" );
+        EntityManagerFactory emf = em.getEntityManagerFactory();
     }
+
+    //SELECT * FROM member INNER JOIN country ON member.country_id = country.country_id
     
-
-//SELECT * FROM member INNER JOIN country ON member.country_id = country.country_id
     public List<Member> findAll() {
-        
-        List list = em.createNativeQuery("SELECT * FROM member INNER JOIN country ON member.country_id = country.country_id")
-                .getResultList();
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 
+        CriteriaQuery<Member> criteriaQuery = criteriaBuilder.createQuery(Member.class);
+        Metamodel m = em.getMetamodel();
+        EntityType<Member> Member_ = m.entity(Member.class);
+        EntityType<Country> Country_ = m.entity(Country.class);
+        
+        Root<Member> member = criteriaQuery.from(Member.class);
+
+
+        criteriaQuery.select(member);
+
+        List<Member> list = em.createQuery(criteriaQuery).getResultList();
+        
+        
         return list;
+        
+        
     }
+
+
+   
 
     /**
      * Giveback a List of all Member by given gender. Gender-Example:
