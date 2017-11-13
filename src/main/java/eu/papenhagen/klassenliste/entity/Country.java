@@ -24,7 +24,7 @@ import lombok.*;
 public class Country implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name = "country_id")
     @Getter
     private int id;
