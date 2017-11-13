@@ -48,7 +48,7 @@ public class FXMLController implements Initializable {
     //get all member form the Database
     private List<Member> memberlist = memberService.listMember();
 
-    private ObservableList<Member> memberList = FXCollections.observableArrayList();
+    private ObservableList<Member> memberList = FXCollections.observableArrayList(memberlist);
 
     @FXML
     void pressedAddButton(ActionEvent event) {
@@ -64,14 +64,6 @@ public class FXMLController implements Initializable {
 
         //refrech table after edit
         table.refresh();
-    }
-
-    public ObservableList<Member> getMemberlist() {
-        if (!memberList.isEmpty()) {
-            memberList.clear();
-        }
-        memberList = FXCollections.observableList((List<Member>) memberService.listMember());
-        return memberList;
     }
 
     public void removeMember(Integer id) {

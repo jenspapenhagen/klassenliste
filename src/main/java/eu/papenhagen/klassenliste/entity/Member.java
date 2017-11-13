@@ -28,7 +28,7 @@ import lombok.*;
     @NamedQuery(name = "Member.findByCountry",
             query = "Select m From Member m Where m.country = :country")
 })
-public class Member {
+public class Member implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

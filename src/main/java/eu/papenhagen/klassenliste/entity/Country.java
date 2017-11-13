@@ -19,7 +19,7 @@ import lombok.*;
 @Table(name = "country")
 @NamedQueries({
     @NamedQuery(name = "Country.findAll",
-            query = "Select co From Country co")
+            query = "from Country")
 })
 public class Country implements Serializable {
 
