@@ -57,7 +57,7 @@ public class MemberDaoImpl extends GenericDao implements MemberDao {
     public void removeMember(Integer id) {
         try (Session session = (Session) em.getDelegate()) {
             beginTransaction();
-            Member tempMember = (Member) em.createNativeQuery("SELECT * FROM Member WHERE id= :id").setParameter("id", id).getSingleResult();
+            Member tempMember = (Member) em.createNativeQuery("SELECT * FROM Member WHERE id= :id", Member.class).setParameter("id", id).getSingleResult();
             remove(tempMember);
         }
     }
@@ -67,10 +67,10 @@ public class MemberDaoImpl extends GenericDao implements MemberDao {
         try (Session session = (Session) em.getDelegate()) {
             beginTransaction();
             if (member != null) {
-                Member tempMember = (Member) em.createNativeQuery("SELECT * FROM Member WHERE id= :id").setParameter("id", member.getId()).getSingleResult();
+                Member tempMember = (Member) em.createNativeQuery("SELECT * FROM Member WHERE id= :id", Member.class).setParameter("id", member.getId()).getSingleResult();
                 tempMember = member;
                 if (tempMember.equals(member)) {
-                    persist(member);
+                    merge(member);
                 }
             }
 
