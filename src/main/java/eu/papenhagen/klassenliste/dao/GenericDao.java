@@ -11,8 +11,8 @@ import java.util.Collection;
 import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 /**
@@ -25,6 +25,7 @@ public class GenericDao implements Serializable {
     private static final int BULK_INSERT_BATCH_SIZE = 50;
 
     @Inject
+    @PersistenceContext
     protected EntityManager em;
 
     public GenericDao() {

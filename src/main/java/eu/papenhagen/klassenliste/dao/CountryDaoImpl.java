@@ -6,7 +6,6 @@
 package eu.papenhagen.klassenliste.dao;
 
 import eu.papenhagen.klassenliste.entity.Country;
-import eu.papenhagen.klassenliste.entity.HibernateUtil;
 import java.util.List;
 import org.hibernate.Session;
 
@@ -14,14 +13,11 @@ import org.hibernate.Session;
  *
  * @author jay
  */
-public class CountryDaoImpl implements CountryDao {
-
-    private HibernateUtil hibernate = new HibernateUtil();
+public class CountryDaoImpl extends GenericDao implements CountryDao {
 
     @Override
     public void addCountry(Country country) {
-        try (Session session = hibernate.getSession()) {
-            hibernate.getTransaction(session);
+        try (Session session = (Session) em.getDelegate()) {
             //check if the country exist, else create it
             List<Country> countryList = listCountry();
             boolean countryExist = false;
@@ -31,7 +27,7 @@ public class CountryDaoImpl implements CountryDao {
                 }
             }
             if (countryExist) {
-                hibernate.saveSession(country);
+                merge(country);
             }
 
         }
@@ -40,31 +36,31 @@ public class CountryDaoImpl implements CountryDao {
     @Override
     public List<Country> listCountry() {
         List<Country> countryList;
-        try (Session session = hibernate.getSession()) {
-            hibernate.getTransaction(session);
+        try (Session session = (Session) em.getDelegate()) {
+
             String hql = "from Country";
-            countryList = session.createQuery(hql).list();
+            countryList = nativeSqlQuery(hql, Country.class);
         }
         return countryList;
     }
 
     @Override
     public void removeCountry(Integer id) {
-        try (Session session = hibernate.getSession()) {
-            hibernate.getTransaction(session);
-            Country tempCountry = (Country) hibernate.getObjectBySession(Country.class, id);
-            hibernate.deleteSession(tempCountry);
+        try (Session session = (Session) em.getDelegate()) {
+
+            Country tempCountry = (Country) em.createNativeQuery("SELECT c FROM Country c WHERE id= :id").setParameter("id", id).getSingleResult();
+            remove(tempCountry);
         }
     }
 
     @Override
     public void updateCountry(Country country) {
-        try (Session session = hibernate.getSession()) {
-            hibernate.getTransaction(session);
+        try (Session session = (Session) em.getDelegate()) {
+
             if (country != null) {
-                Country tempCountry = (Country) hibernate.getObjectBySession(Country.class, country.getId());
+                Country tempCountry = (Country) em.createNativeQuery("SELECT c FROM Country c WHERE id= :id").setParameter("id", country.getId()).getSingleResult();
                 if (tempCountry.equals(country)) {
-                    hibernate.updateSession(country);
+                    merge(country);
                 }
             }
 

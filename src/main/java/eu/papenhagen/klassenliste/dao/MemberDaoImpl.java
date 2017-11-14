@@ -5,7 +5,6 @@
  */
 package eu.papenhagen.klassenliste.dao;
 
-import eu.papenhagen.klassenliste.entity.HibernateUtil;
 import eu.papenhagen.klassenliste.entity.Member;
 import java.util.List;
 import org.hibernate.Session;
@@ -14,14 +13,11 @@ import org.hibernate.Session;
  *
  * @author jay
  */
-public class MemberDaoImpl implements MemberDao {
-
-    private HibernateUtil hibernate = new HibernateUtil();
+public class MemberDaoImpl extends GenericDao implements MemberDao {
 
     @Override
     public void addMember(Member member) {
-        try (Session session = hibernate.getSession()) {
-            hibernate.getTransaction(session);
+        try (Session session = (Session) em.getDelegate()) {
             List<Member> memberList = listMember();
             boolean memberExist = false;
             for (Member me : memberList) {
@@ -31,7 +27,7 @@ public class MemberDaoImpl implements MemberDao {
             }
             //only save on new Member
             if (!memberExist) {
-                hibernate.saveSession(member);
+                merge(member);
             }
 
         }
@@ -41,14 +37,14 @@ public class MemberDaoImpl implements MemberDao {
     @Override
     public List<Member> listMember() {
         List<Member> memberList;
-        try (Session session = hibernate.getSession()) {
-            hibernate.getTransaction(session);
+        try (Session session = (Session) em.getDelegate()) {
+
             //String hql="from Member";
             //String sqlQuery="SELECT * FROM member INNER JOIN country ON member.country_id = country.country_id";
 
             String sqlQuery = "SELECT * FROM member INNER JOIN country ON member.country_id = country.country_id";
 
-            memberList = session.createNativeQuery(sqlQuery, Member.class).getResultList();
+            memberList = nativeSqlQuery(sqlQuery, Member.class);
         }
 
         return memberList;
@@ -56,22 +52,22 @@ public class MemberDaoImpl implements MemberDao {
 
     @Override
     public void removeMember(Integer id) {
-        try (Session session = hibernate.getSession()) {
-            hibernate.getTransaction(session);
-            Member tempMember = (Member) hibernate.getObjectBySession(Member.class, id);
-            hibernate.deleteSession(tempMember);
+        try (Session session = (Session) em.getDelegate()) {
+
+            Member tempMember = (Member) em.createNativeQuery("SELECT m FROM Member m WHERE id= :id").setParameter("id", id).getSingleResult();
+            remove(tempMember);
         }
     }
 
     @Override
     public void updateMember(Member member) {
-        try (Session session = hibernate.getSession()) {
-            hibernate.getTransaction(session);
+        try (Session session = (Session) em.getDelegate()) {
+
             if (member != null) {
-                Member tempMember = (Member) hibernate.getObjectBySession(Member.class, member.getId());
+                Member tempMember = (Member) em.createNativeQuery("SELECT m FROM Member m WHERE id= :id").setParameter("id", member.getId()).getSingleResult();
                 tempMember = member;
                 if (tempMember.equals(member)) {
-                    hibernate.updateSession(member);
+                    merge(member);
 
                 }
             }

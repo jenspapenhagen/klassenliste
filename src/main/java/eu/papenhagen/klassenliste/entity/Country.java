@@ -21,6 +21,7 @@ import lombok.*;
     @NamedQuery(name = "Country.findAll",
             query = "from Country")
     
+    
 })
 public class Country implements Serializable {
 
