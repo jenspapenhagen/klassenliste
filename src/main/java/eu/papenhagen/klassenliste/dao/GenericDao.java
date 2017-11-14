@@ -41,7 +41,7 @@ public class GenericDao implements Serializable {
     public void beginTransaction() {
         if (!transaction.isActive()) {
             transaction.begin();
-        }else{
+        } else {
             init();
         }
     }
@@ -94,12 +94,20 @@ public class GenericDao implements Serializable {
                 em.clear();
             }
         }
-        em.flush();
-        em.clear();
+        flushAndClear();
     }
 
     public void remove(Object entity) {
         em.remove(entity);
         transaction.commit();
+    }
+
+    public void commit() {
+        transaction.commit();
+    }
+
+    public void flushAndClear() {
+        em.flush();
+        em.clear();
     }
 }

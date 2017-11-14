@@ -53,12 +53,17 @@ public class CountryDaoImpl extends GenericDao implements CountryDao {
     public void removeCountry(Integer id) {
         try (Session session = (Session) em.getDelegate()) {
             beginTransaction();
-            Country tempCountry = (Country) em.createNativeQuery("SELECT * FROM Country WHERE id= :id", Country.class ).setParameter("id", id).getSingleResult();
+            Country tempCountry = (Country) em.find(Country.class, id);
             //remove entity
             remove(tempCountry);
-            
+            flushAndClear();
+
             //delete entity out the DB
-            em.createNativeQuery("DELETE  * FROM Country WHERE id= :id", Country.class ).setParameter("id", id).executeUpdate();
+            beginTransaction();
+            em.createQuery("delete from Country where id = :id", Country.class)
+                    .setParameter("id", id)
+                    .executeUpdate();
+            commit();
         }
     }
 
@@ -67,7 +72,7 @@ public class CountryDaoImpl extends GenericDao implements CountryDao {
         try (Session session = (Session) em.getDelegate()) {
             beginTransaction();
             if (country != null) {
-                Country tempCountry = (Country) em.createNativeQuery("SELECT * FROM Country WHERE id= :id", Country.class).setParameter("id", country.getId()).getSingleResult();
+                Country tempCountry = (Country) em.find(Country.class, country.getId());
                 if (tempCountry.equals(country)) {
                     merge(country);
                 }

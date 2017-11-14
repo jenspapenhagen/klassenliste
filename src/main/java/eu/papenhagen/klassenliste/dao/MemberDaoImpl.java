@@ -44,9 +44,6 @@ public class MemberDaoImpl extends GenericDao implements MemberDao {
         List<Member> memberList;
         try (Session session = (Session) em.getDelegate()) {
             beginTransaction();
-            //String hql="from Member";
-            //String sqlQuery="SELECT * FROM member INNER JOIN country ON member.country_id = country.country_id";
-
             String sqlQuery = "SELECT * FROM member INNER JOIN country ON member.country_id = country.country_id";
 
             memberList = nativeSqlQuery(sqlQuery, Member.class);
@@ -59,12 +56,16 @@ public class MemberDaoImpl extends GenericDao implements MemberDao {
     public void removeMember(Integer id) {
         try (Session session = (Session) em.getDelegate()) {
             beginTransaction();
-            Member tempMember = (Member) em.createNativeQuery("SELECT * FROM Member WHERE id= :id", Member.class).setParameter("id", id).getSingleResult();
-            
+
+            Member tempMember = (Member) em.find(Member.class, id);
             remove(tempMember);
-            
+
             //delete entity out the DB
-            em.createNativeQuery("DELETE * FROM Member WHERE id= :id", Member.class ).setParameter("id", id).executeUpdate();
+            beginTransaction();
+            em.createQuery("delete from Member where id = :id", Member.class)
+                    .setParameter("id", id)
+                    .executeUpdate();
+            commit();
         }
     }
 
@@ -73,7 +74,7 @@ public class MemberDaoImpl extends GenericDao implements MemberDao {
         try (Session session = (Session) em.getDelegate()) {
             beginTransaction();
             if (member != null) {
-                Member tempMember = (Member) em.createNativeQuery("SELECT * FROM Member WHERE id= :id", Member.class).setParameter("id", member.getId()).getSingleResult();
+                Member tempMember = (Member) em.find(Member.class, member.getId());
                 tempMember = member;
                 if (tempMember.equals(member)) {
                     merge(member);
