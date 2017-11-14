@@ -29,6 +29,7 @@ public class GenericDao implements Serializable {
     protected EntityManager em;
 
     public GenericDao() {
+        
         em = Persistence.createEntityManagerFactory("basee").createEntityManager();
     }
 
