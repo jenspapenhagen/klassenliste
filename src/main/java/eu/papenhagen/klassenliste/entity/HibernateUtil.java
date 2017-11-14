@@ -58,6 +58,7 @@ public class HibernateUtil {
     public void saveSession(Object o) {
         try (Session session = getSession()) {
             Transaction transaction = getTransaction(session);
+            session.flush();
             session.saveOrUpdate(o);
             commitTransaction(transaction);
         }

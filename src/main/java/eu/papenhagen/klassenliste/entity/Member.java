@@ -65,7 +65,7 @@ public class Member implements Serializable {
 
     @Getter
     @Setter
-    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id")
     private Country country;
 

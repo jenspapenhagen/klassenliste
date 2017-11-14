@@ -31,7 +31,8 @@ public class MemberDaoImpl extends GenericDao implements MemberDao {
                     memberExist = true;
                 }
             }
-            if (memberExist) {
+            //only save on new Member
+            if (!memberExist) {
                 hibernate.saveSession(member);
             }
 
@@ -46,7 +47,7 @@ public class MemberDaoImpl extends GenericDao implements MemberDao {
             hibernate.getTransaction(session);
             //String hql="from Member";
             //String sqlQuery="SELECT * FROM member INNER JOIN country ON member.country_id = country.country_id";
-            
+
             String sqlQuery = "SELECT * FROM member INNER JOIN country ON member.country_id = country.country_id";
 
             memberList = session.createNativeQuery(sqlQuery, Member.class).getResultList();
@@ -60,19 +61,19 @@ public class MemberDaoImpl extends GenericDao implements MemberDao {
         try (Session session = hibernate.getSession()) {
             hibernate.getTransaction(session);
             Member tempMember = (Member) hibernate.getObjectBySession(Member.class, id);
-             hibernate.deleteSession(tempMember);
+            hibernate.deleteSession(tempMember);
         }
     }
 
     @Override
     public void updateMember(Member member) {
         try (Session session = hibernate.getSession()) {
-            hibernate.getTransaction(session).begin();
+            hibernate.getTransaction(session);
             if (member != null) {
                 Member tempMember = (Member) hibernate.getObjectBySession(Member.class, member.getId());
                 tempMember = member;
                 if (tempMember.equals(member)) {
-                     hibernate.saveSession(member);
+                    hibernate.saveSession(member);
 
                 }
             }
