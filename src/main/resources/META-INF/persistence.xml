@@ -13,7 +13,10 @@
             <property name="javax.persistence.jdbc.user" value="root"/>
             <property name="javax.persistence.jdbc.password" value=""/>
             
+            <property name="current_session_context_class">thread</property> 
+            
             <!-- Hibernate properties -->
+
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             <property name="hibernate.connection.autocommit" value="true" />
             <property name="hibernate.hbm2ddl.auto" value="update"/>

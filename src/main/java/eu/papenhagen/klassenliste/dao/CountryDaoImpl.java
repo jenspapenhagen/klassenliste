@@ -38,8 +38,8 @@ public class CountryDaoImpl extends GenericDao implements CountryDao {
         List<Country> countryList;
         try (Session session = (Session) em.getDelegate()) {
 
-            String hql = "from Country";
-            countryList = nativeSqlQuery(hql, Country.class);
+            String sqlquery = "SELECT * FROM Country";
+            countryList = nativeSqlQuery(sqlquery, Country.class);
         }
         return countryList;
     }
