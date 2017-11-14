@@ -9,7 +9,6 @@
         <property name="connection.url">jdbc:mysql://localhost:3306/db_database?useSSL=false&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=Europe/Berlin</property>
         <property name="connection.username">root</property>
         <property name="connection.password"></property>
-        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
 
         <!-- JDBC connection pool settings ... using built-in test pool -->
         <property name="connection.pool_size">100</property>
@@ -19,6 +18,7 @@
         
         <!-- Enable Hibernate's automatic session context management -->
         <property name="current_session_context_class">thread</property>
+        <property name="hibernate.enable_lazy_load_no_trans">true</property>
         
         <!-- Disable the second-level cache  -->
         <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>

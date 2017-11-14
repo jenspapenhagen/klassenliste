@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
+-- version 4.2.7.1
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 13. Nov 2017 um 18:39
--- Server-Version: 10.1.13-MariaDB
--- PHP-Version: 7.0.6
+-- Erstellungszeit: 14. Nov 2017 um 14:00
+-- Server Version: 5.6.20
+-- PHP-Version: 5.5.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Datenbank: `db_database`
@@ -28,13 +28,10 @@ USE `db_database`;
 -- Tabellenstruktur für Tabelle `country`
 --
 
-DROP TABLE IF EXISTS `country`;
 CREATE TABLE IF NOT EXISTS `country` (
-  `country_id` int(11) NOT NULL AUTO_INCREMENT,
-  `countryname` varchar(100) CHARACTER SET utf32 COLLATE utf32_german2_ci NOT NULL,
-  PRIMARY KEY (`country_id`),
-  KEY `country_id` (`country_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf32;
+`country_id` int(11) NOT NULL,
+  `countryname` varchar(100) CHARACTER SET utf32 COLLATE utf32_german2_ci NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=utf32 AUTO_INCREMENT=8 ;
 
 --
 -- Daten für Tabelle `country`
@@ -56,18 +53,14 @@ INSERT INTO `country` (`country_id`, `countryname`) VALUES
 -- Tabellenstruktur für Tabelle `member`
 --
 
-DROP TABLE IF EXISTS `member`;
 CREATE TABLE IF NOT EXISTS `member` (
-  `id` mediumint(8) UNSIGNED NOT NULL,
+  `id` mediumint(8) unsigned NOT NULL,
   `name` varchar(255) CHARACTER SET utf32 COLLATE utf32_german2_ci DEFAULT NULL,
   `nachname` varchar(255) CHARACTER SET utf32 COLLATE utf32_german2_ci DEFAULT NULL,
   `gender` tinyint(1) DEFAULT NULL,
   `age` mediumint(9) DEFAULT NULL,
   `country_id` int(11) DEFAULT NULL,
-  `bemerkung` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `country_id` (`country_id`),
-  KEY `id` (`id`)
+  `bemerkung` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf32;
 
 --
@@ -176,6 +169,40 @@ INSERT INTO `member` (`id`, `name`, `nachname`, `gender`, `age`, `country_id`, `
 (99, 'Brendan', 'Stokes', 1, 88, 2, NULL),
 (100, 'Deacon', 'Britt', 1, 49, 5, NULL);
 
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `country`
+--
+ALTER TABLE `country`
+ ADD PRIMARY KEY (`country_id`), ADD KEY `country_id` (`country_id`);
+
+--
+-- Indexes for table `member`
+--
+ALTER TABLE `member`
+ ADD PRIMARY KEY (`id`), ADD KEY `country_id` (`country_id`), ADD KEY `id` (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `country`
+--
+ALTER TABLE `country`
+MODIFY `country_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+--
+-- Constraints der exportierten Tabellen
+--
+
+--
+-- Constraints der Tabelle `member`
+--
+ALTER TABLE `member`
+ADD CONSTRAINT `member_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

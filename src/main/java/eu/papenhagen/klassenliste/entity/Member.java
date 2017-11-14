@@ -7,7 +7,6 @@ package eu.papenhagen.klassenliste.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
-
 import lombok.*;
 
 /**
@@ -21,6 +20,9 @@ import lombok.*;
 @NamedQueries({
     @NamedQuery(name = "Member.findByGender",
             query = "Select m From Member m Where m.gender = :gender")
+    ,
+    @NamedQuery(name = "Member.findById",
+            query = "Select m From Member m Where m.id = :id")
     ,
    @NamedQuery(name = "Member.findByAge",
             query = "Select m From Member m Where m.age = :age")
@@ -63,7 +65,7 @@ public class Member implements Serializable {
 
     @Getter
     @Setter
-    @OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id")
     private Country country;
 

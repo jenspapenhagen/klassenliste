@@ -176,15 +176,15 @@ public class EditDialog extends Dialog {
 
             m.setGender(gender);
 
-            m.setAge(Integer.valueOf(alterTextField.getText()));
+            m.setAge(Integer.parseInt( alterTextField.getText() ));
             m.setBemerkung(bemerkungTextArea.getText());
 
             //create or update a member in the db
             if (isNewMember) {
-                System.out.println("new" + m.toString());
+                System.out.println("new " + m.toString());
                 memberService.addMember(m);
             } else {
-                System.out.println("update" + m.toString());
+                System.out.println("update " + m.toString());
                 memberService.updateMember(m);
             }
 

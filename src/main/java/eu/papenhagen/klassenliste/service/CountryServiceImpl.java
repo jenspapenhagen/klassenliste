@@ -14,9 +14,9 @@ import java.util.List;
  *
  * @author jay
  */
-public class CountryServiceImpl  implements CountryService{
-    
-     private CountryDao countryDao = new CountryDaoImpl();
+public class CountryServiceImpl implements CountryService {
+
+    private CountryDao countryDao = new CountryDaoImpl();
 
     @Override
     public void addCountry(Country country) {
@@ -25,17 +25,17 @@ public class CountryServiceImpl  implements CountryService{
 
     @Override
     public List<Country> listCountry() {
-         return countryDao.listCountry();
+        return countryDao.listCountry();
     }
 
     @Override
     public void removeCountry(Integer id) {
-       countryDao.removeCountry(id);
+        countryDao.removeCountry(id);
     }
 
     @Override
     public void updateCountry(Country country) {
         countryDao.updateCountry(country);
     }
-    
+
 }
