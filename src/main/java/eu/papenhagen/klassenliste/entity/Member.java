@@ -33,7 +33,7 @@ import lombok.*;
 public class Member implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", insertable = false, updatable = false)
     @Getter
     private int id;
@@ -65,7 +65,7 @@ public class Member implements Serializable {
 
     @Getter
     @Setter
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id")
     private Country country;
 

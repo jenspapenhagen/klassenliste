@@ -14,7 +14,7 @@ import org.hibernate.Session;
  *
  * @author jay
  */
-public class MemberDaoImpl extends GenericDao implements MemberDao {
+public class MemberDaoImpl implements MemberDao {
 
     private HibernateUtil hibernate = new HibernateUtil();
 

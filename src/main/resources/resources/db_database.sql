@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.7.1
+-- version 4.5.1
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 14. Nov 2017 um 14:00
--- Server Version: 5.6.20
--- PHP-Version: 5.5.15
+-- Erstellungszeit: 14. Nov 2017 um 18:56
+-- Server-Version: 10.1.13-MariaDB
+-- PHP-Version: 7.0.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,13 +14,11 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Datenbank: `db_database`
 --
-CREATE DATABASE IF NOT EXISTS `db_database` DEFAULT CHARACTER SET utf32 COLLATE utf32_german2_ci;
-USE `db_database`;
 
 -- --------------------------------------------------------
 
@@ -28,10 +26,10 @@ USE `db_database`;
 -- Tabellenstruktur für Tabelle `country`
 --
 
-CREATE TABLE IF NOT EXISTS `country` (
-`country_id` int(11) NOT NULL,
+CREATE TABLE `country` (
+  `country_id` int(11) NOT NULL,
   `countryname` varchar(100) CHARACTER SET utf32 COLLATE utf32_german2_ci NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf32 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf32;
 
 --
 -- Daten für Tabelle `country`
@@ -45,7 +43,26 @@ INSERT INTO `country` (`country_id`, `countryname`) VALUES
 (4, 'panama'),
 (5, 'sweden'),
 (6, 'turkey'),
-(7, 'zambia');
+(7, 'zambia'),
+(8, 'germany');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `hibernate_sequence`
+--
+
+CREATE TABLE `hibernate_sequence` (
+  `next_val` bigint(20) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `hibernate_sequence`
+--
+
+INSERT INTO `hibernate_sequence` (`next_val`) VALUES
+(16),
+(16);
 
 -- --------------------------------------------------------
 
@@ -53,8 +70,8 @@ INSERT INTO `country` (`country_id`, `countryname`) VALUES
 -- Tabellenstruktur für Tabelle `member`
 --
 
-CREATE TABLE IF NOT EXISTS `member` (
-  `id` mediumint(8) unsigned NOT NULL,
+CREATE TABLE `member` (
+  `id` mediumint(8) UNSIGNED NOT NULL,
   `name` varchar(255) CHARACTER SET utf32 COLLATE utf32_german2_ci DEFAULT NULL,
   `nachname` varchar(255) CHARACTER SET utf32 COLLATE utf32_german2_ci DEFAULT NULL,
   `gender` tinyint(1) DEFAULT NULL,
@@ -73,7 +90,7 @@ INSERT INTO `member` (`id`, `name`, `nachname`, `gender`, `age`, `country_id`, `
 (3, 'Carlos', 'Rosario', 1, 93, 6, NULL),
 (4, 'Chandler', 'Hahn', 0, 15, 0, NULL),
 (5, 'Lucius', 'Donovan', 0, 35, 1, NULL),
-(6, 'Carson', 'Stafford', 0, 13, 1, NULL),
+(6, 'Carson', 'Stafford', 1, 14, 1, NULL),
 (7, 'Oliver', 'Martin', 1, 20, 5, NULL),
 (8, 'Elton', 'Sykes', 1, 64, 1, NULL),
 (9, 'Macon', 'Miranda', 1, 64, 4, NULL),
@@ -89,11 +106,11 @@ INSERT INTO `member` (`id`, `name`, `nachname`, `gender`, `age`, `country_id`, `
 (19, 'Zane', 'Crawford', 0, 44, 2, NULL),
 (20, 'Ross', 'Sherman', 1, 33, 6, NULL),
 (21, 'Murphy', 'Shepherd', 0, 55, 2, NULL),
-(22, 'Hashim', 'Jimenez', 1, 80, 0, NULL),
+(22, 'Hashim', 'Jimenez', 1, 80, 8, NULL),
 (23, 'Tarik', 'Salinas', 1, 49, 3, NULL),
 (24, 'Erich', 'Moore', 1, 31, 4, NULL),
 (25, 'Axel', 'Klein', 1, 56, 1, NULL),
-(26, 'Lester', 'Chandler', 1, 96, 0, NULL),
+(26, 'Lester', 'Chandler', 0, 96, 8, ' e<sdf <sdfsdf'),
 (27, 'Oscar', 'Casey', 1, 82, 1, NULL),
 (28, 'Hammett', 'Vaughn', 1, 39, 4, NULL),
 (29, 'Felix', 'Joyce', 1, 60, 5, NULL),
@@ -153,7 +170,7 @@ INSERT INTO `member` (`id`, `name`, `nachname`, `gender`, `age`, `country_id`, `
 (83, 'Malachi', 'Crosby', 1, 10, 1, NULL),
 (84, 'Blake', 'Ewing', 0, 79, 1, NULL),
 (85, 'Uriah', 'Hendricks', 1, 42, 6, NULL),
-(86, 'Abraham', 'Odom', 0, 59, 0, NULL),
+(86, 'Abraham', 'Odom', 1, 59, 8, 'test'),
 (87, 'Nathaniel', 'Cruz', 1, 17, 3, NULL),
 (88, 'Herrod', 'Hubbard', 0, 67, 6, NULL),
 (89, 'Jelani', 'Daniels', 0, 91, 1, NULL),
@@ -170,30 +187,36 @@ INSERT INTO `member` (`id`, `name`, `nachname`, `gender`, `age`, `country_id`, `
 (100, 'Deacon', 'Britt', 1, 49, 5, NULL);
 
 --
--- Indexes for dumped tables
+-- Indizes der exportierten Tabellen
 --
 
 --
--- Indexes for table `country`
+-- Indizes für die Tabelle `country`
 --
 ALTER TABLE `country`
- ADD PRIMARY KEY (`country_id`), ADD KEY `country_id` (`country_id`);
+  ADD PRIMARY KEY (`country_id`),
+  ADD KEY `country_id` (`country_id`);
 
 --
--- Indexes for table `member`
+-- Indizes für die Tabelle `member`
 --
 ALTER TABLE `member`
- ADD PRIMARY KEY (`id`), ADD KEY `country_id` (`country_id`), ADD KEY `id` (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `country_id` (`country_id`),
+  ADD KEY `id` (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT für exportierte Tabellen
 --
 
 --
--- AUTO_INCREMENT for table `country`
+-- AUTO_INCREMENT für Tabelle `country`
 --
 ALTER TABLE `country`
-MODIFY `country_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+  MODIFY `country_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  
+ALTER TABLE `member`
+  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 --
 -- Constraints der exportierten Tabellen
 --
@@ -202,7 +225,7 @@ MODIFY `country_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 -- Constraints der Tabelle `member`
 --
 ALTER TABLE `member`
-ADD CONSTRAINT `member_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`) ON DELETE SET NULL ON UPDATE SET NULL;
+  ADD CONSTRAINT `FKimgxpbvyco1xw2gw8nia3f9kv` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
