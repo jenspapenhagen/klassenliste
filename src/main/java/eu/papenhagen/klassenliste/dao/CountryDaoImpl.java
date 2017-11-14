@@ -7,17 +7,20 @@ package eu.papenhagen.klassenliste.dao;
 
 import eu.papenhagen.klassenliste.entity.Country;
 import java.util.List;
+import javax.ejb.Stateless;
 import org.hibernate.Session;
 
 /**
  *
  * @author jay
  */
+@Stateless
 public class CountryDaoImpl extends GenericDao implements CountryDao {
 
     @Override
     public void addCountry(Country country) {
         try (Session session = (Session) em.getDelegate()) {
+            beginTransaction();
             //check if the country exist, else create it
             List<Country> countryList = listCountry();
             boolean countryExist = false;
@@ -37,7 +40,7 @@ public class CountryDaoImpl extends GenericDao implements CountryDao {
     public List<Country> listCountry() {
         List<Country> countryList;
         try (Session session = (Session) em.getDelegate()) {
-
+            beginTransaction();
             String sqlquery = "SELECT * FROM Country";
             countryList = nativeSqlQuery(sqlquery, Country.class);
         }
@@ -47,8 +50,8 @@ public class CountryDaoImpl extends GenericDao implements CountryDao {
     @Override
     public void removeCountry(Integer id) {
         try (Session session = (Session) em.getDelegate()) {
-
-            Country tempCountry = (Country) em.createNativeQuery("SELECT c FROM Country c WHERE id= :id").setParameter("id", id).getSingleResult();
+            beginTransaction();
+            Country tempCountry = (Country) em.createNativeQuery("SELECT * FROM Country WHERE id= :id").setParameter("id", id).getSingleResult();
             remove(tempCountry);
         }
     }
@@ -56,11 +59,11 @@ public class CountryDaoImpl extends GenericDao implements CountryDao {
     @Override
     public void updateCountry(Country country) {
         try (Session session = (Session) em.getDelegate()) {
-
+            beginTransaction();
             if (country != null) {
-                Country tempCountry = (Country) em.createNativeQuery("SELECT c FROM Country c WHERE id= :id").setParameter("id", country.getId()).getSingleResult();
+                Country tempCountry = (Country) em.createNativeQuery("SELECT * FROM Country WHERE id= :id").setParameter("id", country.getId()).getSingleResult();
                 if (tempCountry.equals(country)) {
-                    merge(country);
+                    persist(country);
                 }
             }
 

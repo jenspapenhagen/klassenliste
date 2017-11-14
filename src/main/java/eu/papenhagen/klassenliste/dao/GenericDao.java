@@ -11,8 +11,8 @@ import java.util.Collection;
 import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 /**
@@ -25,12 +25,25 @@ public class GenericDao implements Serializable {
     private static final int BULK_INSERT_BATCH_SIZE = 50;
 
     @Inject
-    @PersistenceContext
     protected EntityManager em;
 
+    private EntityTransaction transaction;
+
     public GenericDao() {
-        
+        init();
+    }
+
+    private void init() {
         em = Persistence.createEntityManagerFactory("basee").createEntityManager();
+        transaction = em.getTransaction();
+    }
+
+    public void beginTransaction() {
+        if (!transaction.isActive()) {
+            transaction.begin();
+        }else{
+            init();
+        }
     }
 
     public <T> List<T> nativeSqlQuery(String sqlQuery, Class<T> clazz) {
@@ -46,22 +59,30 @@ public class GenericDao implements Serializable {
     }
 
     public Object merge(Object entity) {
-        return em.merge(entity);
+        Object merge = em.merge(entity);
+        transaction.commit();
+
+        return merge;
     }
 
     public Object merge(AuditEntity entity, String lastModifiedBy) {
         entity.setLastModifiedBy(lastModifiedBy);
-        return em.merge(entity);
+        AuditEntity merge = em.merge(entity);
+        transaction.commit();
+
+        return merge;
     }
 
     public void persist(Object entity) {
         em.persist(entity);
+        transaction.commit();
     }
 
     public void persist(AuditEntity entity, String createdBy) {
         entity.setCreatedBy(createdBy);
         entity.setLastModifiedBy(createdBy);
         em.persist(entity);
+        transaction.commit();
     }
 
     public <T> void persistBulk(Collection<T> entities) {
@@ -79,5 +100,6 @@ public class GenericDao implements Serializable {
 
     public void remove(Object entity) {
         em.remove(entity);
+        transaction.commit();
     }
 }
