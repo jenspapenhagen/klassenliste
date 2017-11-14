@@ -28,9 +28,7 @@ public class GenericDao implements Serializable {
     protected EntityManager em;
 
     public GenericDao() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("eu.papenhagen.klassenliste");
-
-        em = emf.createEntityManager();
+        em = Persistence.createEntityManagerFactory("basee").createEntityManager();
     }
 
     public <T> List<T> nativeSqlQuery(String sqlQuery, Class<T> clazz) {

@@ -49,24 +49,6 @@ INSERT INTO `country` (`country_id`, `countryname`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `hibernate_sequence`
---
-
-CREATE TABLE `hibernate_sequence` (
-  `next_val` bigint(20) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Daten für Tabelle `hibernate_sequence`
---
-
-INSERT INTO `hibernate_sequence` (`next_val`) VALUES
-(16),
-(16);
-
--- --------------------------------------------------------
-
---
 -- Tabellenstruktur für Tabelle `member`
 --
 
