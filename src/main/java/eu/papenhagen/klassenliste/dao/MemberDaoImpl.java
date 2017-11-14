@@ -9,8 +9,6 @@ import eu.papenhagen.klassenliste.entity.HibernateUtil;
 import eu.papenhagen.klassenliste.entity.Member;
 import java.util.List;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 
 /**
  *
@@ -73,7 +71,7 @@ public class MemberDaoImpl extends GenericDao implements MemberDao {
                 Member tempMember = (Member) hibernate.getObjectBySession(Member.class, member.getId());
                 tempMember = member;
                 if (tempMember.equals(member)) {
-                    hibernate.saveSession(member);
+                    hibernate.updateSession(member);
 
                 }
             }

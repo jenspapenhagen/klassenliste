@@ -64,7 +64,7 @@ public class CountryDaoImpl implements CountryDao {
             if (country != null) {
                 Country tempCountry = (Country) hibernate.getObjectBySession(Country.class, country.getId());
                 if (tempCountry.equals(country)) {
-                    hibernate.saveSession(country);
+                    hibernate.updateSession(country);
                 }
             }
 

@@ -55,11 +55,20 @@ public class HibernateUtil {
         return output;
     }
 
-    public void saveSession(Object o) {
+    public void updateSession(Object o) {
         try (Session session = getSession()) {
             Transaction transaction = getTransaction(session);
             session.flush();
             session.saveOrUpdate(o);
+            commitTransaction(transaction);
+        }
+    }
+
+    public void saveSession(Object o) {
+        try (Session session = getSession()) {
+            Transaction transaction = getTransaction(session);
+            session.flush();
+            session.save(o);
             commitTransaction(transaction);
         }
     }

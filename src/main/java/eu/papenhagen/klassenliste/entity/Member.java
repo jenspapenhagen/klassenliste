@@ -34,7 +34,7 @@ public class Member implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @Column(name = "id", insertable = false, updatable = false)
     @Getter
     private int id;
 
