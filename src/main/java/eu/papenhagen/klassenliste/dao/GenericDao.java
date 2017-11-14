@@ -9,7 +9,6 @@ import eu.papenhagen.klassenliste.entity.AuditEntity;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;

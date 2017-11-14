@@ -54,7 +54,11 @@ public class CountryDaoImpl extends GenericDao implements CountryDao {
         try (Session session = (Session) em.getDelegate()) {
             beginTransaction();
             Country tempCountry = (Country) em.createNativeQuery("SELECT * FROM Country WHERE id= :id", Country.class ).setParameter("id", id).getSingleResult();
+            //remove entity
             remove(tempCountry);
+            
+            //delete entity out the DB
+            em.createNativeQuery("DELETE  * FROM Country WHERE id= :id", Country.class ).setParameter("id", id).executeUpdate();
         }
     }
 

@@ -60,7 +60,11 @@ public class MemberDaoImpl extends GenericDao implements MemberDao {
         try (Session session = (Session) em.getDelegate()) {
             beginTransaction();
             Member tempMember = (Member) em.createNativeQuery("SELECT * FROM Member WHERE id= :id", Member.class).setParameter("id", id).getSingleResult();
+            
             remove(tempMember);
+            
+            //delete entity out the DB
+            em.createNativeQuery("DELETE * FROM Member WHERE id= :id", Member.class ).setParameter("id", id).executeUpdate();
         }
     }
 
