@@ -22,6 +22,8 @@ public class MemberDaoImpl extends GenericDao implements MemberDao {
         try (Session session = (Session) em.getDelegate()) {
             beginTransaction();
             List<Member> memberList = listMember();
+            //Transaction get closed in listCountry()
+            beginTransaction();
             boolean memberExist = false;
             for (Member me : memberList) {
                 if (me.getId() == member.getId()) {

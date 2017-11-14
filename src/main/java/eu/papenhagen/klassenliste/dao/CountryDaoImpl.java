@@ -23,6 +23,8 @@ public class CountryDaoImpl extends GenericDao implements CountryDao {
             beginTransaction();
             //check if the country exist, else create it
             List<Country> countryList = listCountry();
+            //Transaction get closed in listCountry()
+            beginTransaction();
             boolean countryExist = false;
             for (Country co : countryList) {
                 if (co.getCountryname().equals(country.getCountryname())) {
