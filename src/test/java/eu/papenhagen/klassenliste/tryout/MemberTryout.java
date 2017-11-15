@@ -10,8 +10,9 @@ import eu.papenhagen.klassenliste.entity.Country;
 import eu.papenhagen.klassenliste.entity.Member;
 
 /**
- *
- * @author it6-papeje
+ * a simple tryout for Member entity
+ * 
+ * @author jens.papenhagen
  */
 public class MemberTryout {
 

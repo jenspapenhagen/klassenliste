@@ -14,7 +14,8 @@ import javafx.embed.swing.JFXPanel;
 import org.junit.Test;
 
 /**
- *
+ * A Tryout for the Edit Pane
+ * 
  * @author jens.papenhagen
  */
 public class EditPaneTryout {

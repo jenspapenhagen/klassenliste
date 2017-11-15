@@ -38,6 +38,9 @@ public class GenericDao implements Serializable {
         transaction = em.getTransaction();
     }
 
+    /**
+     * Transaction get startet
+     */
     public void beginTransaction() {
         if (!transaction.isActive()) {
             transaction.begin();
@@ -46,45 +49,92 @@ public class GenericDao implements Serializable {
         }
     }
 
-    public <T> List<T> nativeSqlQuery(String sqlQuery, Class<T> clazz) {
-        Query query = em.createNativeQuery(sqlQuery, clazz);
+    /**
+     * Warper for nativeSqlQuery that drop a list
+     * with a parsing Class as help
+     * 
+     * @param <T> pparsing Class
+     * @param sqlQuery are parst to the DB 
+     * @return a List of goven Type
+     */
+    public <T> List<T> nativeSqlQuery(String sqlQuery, Class T) {
+        Query query = em.createNativeQuery(sqlQuery, T);
         @SuppressWarnings("unchecked")
         List<T> resultList = query.getResultList();
         return resultList;
     }
 
+    /**
+     * Warper for nativeSqlQuery that drop a list
+     * 
+     * @param sqlQuery are parst to the DB 
+     * @return a List of goven Type
+     */
     public List<?> nativeSqlQuery(String sqlQuery) {
         Query query = em.createNativeQuery(sqlQuery);
         return query.getResultList();
     }
 
+    /**
+     * merge the entity in the entitymanager
+     * 
+     * @param entity
+     * @return the feedback of the merge
+     * 
+     */
     public Object merge(Object entity) {
         Object merge = em.merge(entity);
-        transaction.commit();
+        commit();
 
         return merge;
     }
 
+    /**
+     * merge the entity in the entitymanager
+     * and adding a lastModifiedBy string
+     * 
+     * @param entity a AuditEntity
+     * @param lastModifiedBy as Change Autor
+     * @return the feedback of the merge
+     */
     public Object merge(AuditEntity entity, String lastModifiedBy) {
         entity.setLastModifiedBy(lastModifiedBy);
         AuditEntity merge = em.merge(entity);
-        transaction.commit();
+        commit();
 
         return merge;
     }
 
+    /**
+     * persist the entity in the entitymanager
+     * 
+     * @param entity 
+     */
     public void persist(Object entity) {
         em.persist(entity);
-        transaction.commit();
+        commit();
     }
 
+    /**
+     * persist the entity in the entitymanager
+     * and adding a lastModifiedBy string
+     * 
+     * @param entity
+     * @param createdBy 
+     */
     public void persist(AuditEntity entity, String createdBy) {
         entity.setCreatedBy(createdBy);
         entity.setLastModifiedBy(createdBy);
         em.persist(entity);
-        transaction.commit();
+        commit();
     }
 
+    /**
+     * persist a lot of entities by split it into smaller pices
+     * 
+     * @param <T>
+     * @param entities 
+     */
     public <T> void persistBulk(Collection<T> entities) {
         int i = 0;
         for (T entity : entities) {
@@ -97,11 +147,19 @@ public class GenericDao implements Serializable {
         flushAndClear();
     }
 
+    /**
+     * remove the entity out of the entitymanager
+     * 
+     * @param entity that get remove 
+     */
     public void remove(Object entity) {
         em.remove(entity);
-        transaction.commit();
+        commit();
     }
 
+    /**
+     * commit to DB
+     */
     public void commit() {
         transaction.commit();
     }

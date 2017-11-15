@@ -22,5 +22,4 @@ public interface MemberSerivce {
 
     public void updateMember(Member member);
 
-
 }

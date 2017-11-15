@@ -17,6 +17,11 @@ import org.hibernate.Session;
 @Stateless
 public class CountryDaoImpl extends GenericDao implements CountryDao {
 
+    /**
+     * add Country to DB
+     * 
+     * @param country 
+     */
     @Override
     public void addCountry(Country country) {
         try (Session session = (Session) em.getDelegate()) {
@@ -38,6 +43,11 @@ public class CountryDaoImpl extends GenericDao implements CountryDao {
         }
     }
 
+    /**
+     * get a list of all Country
+     * 
+     * @return this list 
+     */
     @Override
     public List<Country> listCountry() {
         List<Country> countryList;
@@ -49,6 +59,11 @@ public class CountryDaoImpl extends GenericDao implements CountryDao {
         return countryList;
     }
 
+    /**
+     * remove a Country from the DB
+     * 
+     * @param id of the Country
+     */
     @Override
     public void removeCountry(Integer id) {
         try (Session session = (Session) em.getDelegate()) {
@@ -67,6 +82,11 @@ public class CountryDaoImpl extends GenericDao implements CountryDao {
         }
     }
 
+    /**
+     * update a Country from the DB
+     * 
+     * @param country for update 
+     */
     @Override
     public void updateCountry(Country country) {
         try (Session session = (Session) em.getDelegate()) {

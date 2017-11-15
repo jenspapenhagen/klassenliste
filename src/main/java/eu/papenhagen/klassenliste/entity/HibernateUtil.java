@@ -23,6 +23,15 @@ public class HibernateUtil {
 
     private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(HibernateUtil.class);
 
+    public HibernateUtil() {
+        sessionFactory = buildSessionFactory();
+    }
+
+    /**
+     * build the Session Factory out of Configuration /root/ hibernate.cfg.xml
+     *
+     * @return SessionFactory out of the Configuration
+     */
     private SessionFactory buildSessionFactory() {
         try {
             // Create the SessionFactory from hibernate.cfg.xml
@@ -35,16 +44,24 @@ public class HibernateUtil {
 
     }
 
-    public HibernateUtil() {
-        sessionFactory = buildSessionFactory();
-    }
-
+    /**
+     * get Session out of the SessionFactory
+     *
+     * @return the open Session
+     */
     public Session getSession() {
         Session session = sessionFactory.openSession();
 
         return session;
     }
 
+    /**
+     * Get entity out of Session by Class and id of this entity
+     *
+     * @param class T
+     * @param id
+     * @return
+     */
     public Object getObjectBySession(Class T, int id) {
         Object output;
         try (Session session = getSession()) {
@@ -55,6 +72,11 @@ public class HibernateUtil {
         return output;
     }
 
+    /**
+     * update a object with the DB
+     *
+     * @param o of any type
+     */
     public void updateSession(Object o) {
         try (Session session = getSession()) {
             Transaction transaction = getTransaction(session);
@@ -64,6 +86,11 @@ public class HibernateUtil {
         }
     }
 
+    /**
+     * save a object with the DB
+     *
+     * @param o of any type
+     */
     public void saveSession(Object o) {
         try (Session session = getSession()) {
             Transaction transaction = getTransaction(session);
@@ -73,6 +100,11 @@ public class HibernateUtil {
         }
     }
 
+    /**
+     * merge a object with the DB
+     *
+     * @param o of any type
+     */
     public void mergeSession(Object o) {
         try (Session session = getSession()) {
             Transaction transaction = getTransaction(session);
@@ -81,6 +113,11 @@ public class HibernateUtil {
         }
     }
 
+    /**
+     * delete a object in the DB
+     *
+     * @param o of any type
+     */
     public void deleteSession(Object o) {
         try (Session session = getSession()) {
             Transaction transaction = getTransaction(session);
@@ -89,12 +126,22 @@ public class HibernateUtil {
         }
     }
 
+    /**
+     * get a Transaction
+     * @param session are need to get a
+     * @return Transaction out of the session
+     */
     public Transaction getTransaction(Session session) {
         Transaction beginTransaction = session.beginTransaction();
 
         return beginTransaction;
     }
 
+    /**
+     * commit the Transaction
+     * and save to DB
+     * @param transaction 
+     */
     private void commitTransaction(Transaction transaction) {
         transaction.commit();
     }

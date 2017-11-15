@@ -17,6 +17,11 @@ import org.hibernate.Session;
 @Stateless
 public class MemberDaoImpl extends GenericDao implements MemberDao {
 
+    /**
+     * add a Member to the DB
+     * 
+     * @param member 
+     */
     @Override
     public void addMember(Member member) {
         try (Session session = (Session) em.getDelegate()) {
@@ -39,6 +44,11 @@ public class MemberDaoImpl extends GenericDao implements MemberDao {
 
     }
 
+    /**
+     * get a list of all Member
+     * 
+     * @return this list 
+     */
     @Override
     public List<Member> listMember() {
         List<Member> memberList;
@@ -52,6 +62,11 @@ public class MemberDaoImpl extends GenericDao implements MemberDao {
         return memberList;
     }
 
+    /**
+     * remove a Member from the DB
+     * 
+     * @param id of this Member
+     */
     @Override
     public void removeMember(Integer id) {
         try (Session session = (Session) em.getDelegate()) {
@@ -69,6 +84,11 @@ public class MemberDaoImpl extends GenericDao implements MemberDao {
         }
     }
 
+    /**
+     * update a given Member
+     * 
+     * @param member that a are updated 
+     */
     @Override
     public void updateMember(Member member) {
         try (Session session = (Session) em.getDelegate()) {
