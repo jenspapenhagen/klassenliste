@@ -8,7 +8,6 @@ package eu.papenhagen.klassenliste.eao;
 import java.io.Serializable;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import eu.papenhagen.klassenliste.entity.AuditEntity;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
@@ -58,20 +57,6 @@ public class GenericEao implements Serializable {
         return merge;
     }
 
-    /**
-     * merge the entity in the entitymanager and adding a lastModifiedBy string
-     *
-     * @param entity a AuditEntity
-     * @param lastModifiedBy as Change Autor
-     * @return the feedback of the merge
-     */
-    public Object merge(AuditEntity entity, String lastModifiedBy) {
-        entity.setLastModifiedBy(lastModifiedBy);
-        AuditEntity merge = em.merge(entity);
-        commit();
-
-        return merge;
-    }
 
     /**
      * commit to DB

@@ -5,7 +5,6 @@
  */
 package eu.papenhagen.klassenliste.emo;
 
-import eu.papenhagen.klassenliste.entity.AuditEntity;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.inject.Inject;
@@ -57,19 +56,6 @@ public class GenericEmo implements Serializable {
         commit();
     }
 
-    /**
-     * persist the entity in the entitymanager and adding a lastModifiedBy
-     * string
-     *
-     * @param entity
-     * @param createdBy
-     */
-    public void persist(AuditEntity entity, String createdBy) {
-        entity.setCreatedBy(createdBy);
-        entity.setLastModifiedBy(createdBy);
-        em.persist(entity);
-        commit();
-    }
 
     /**
      * persist a lot of entities by split it into smaller pices

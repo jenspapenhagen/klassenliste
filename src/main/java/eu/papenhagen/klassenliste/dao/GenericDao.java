@@ -5,7 +5,6 @@
  */
 package eu.papenhagen.klassenliste.dao;
 
-import eu.papenhagen.klassenliste.entity.AuditEntity;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -90,41 +89,11 @@ public class GenericDao implements Serializable {
     }
 
     /**
-     * merge the entity in the entitymanager
-     * and adding a lastModifiedBy string
-     * 
-     * @param entity a AuditEntity
-     * @param lastModifiedBy as Change Autor
-     * @return the feedback of the merge
-     */
-    public Object merge(AuditEntity entity, String lastModifiedBy) {
-        entity.setLastModifiedBy(lastModifiedBy);
-        AuditEntity merge = em.merge(entity);
-        commit();
-
-        return merge;
-    }
-
-    /**
      * persist the entity in the entitymanager
      * 
      * @param entity 
      */
     public void persist(Object entity) {
-        em.persist(entity);
-        commit();
-    }
-
-    /**
-     * persist the entity in the entitymanager
-     * and adding a lastModifiedBy string
-     * 
-     * @param entity
-     * @param createdBy 
-     */
-    public void persist(AuditEntity entity, String createdBy) {
-        entity.setCreatedBy(createdBy);
-        entity.setLastModifiedBy(createdBy);
         em.persist(entity);
         commit();
     }
